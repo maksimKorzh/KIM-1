@@ -42,9 +42,8 @@
       
       function litLED() {
         let segment = ((RIOT[0x42] - 9) >> 1) & 0x07;
-        
-        //if (segment < 6)
-          DISPLAY[segment.toString(16)](RIOT[0x40]);
+        display(segment, RIOT[0x40]);
+        //DISPLAY[segment.toString(16)](RIOT[0x40]);
       }
       function resetCPU() { cpu.reset(); cpu.log(); }
       function stepCPU() { cpu.step(); cpu.log(); }

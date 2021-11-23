@@ -1188,6 +1188,18 @@ const DISPLAY = {
   '7': function() {}
 };
 
+function display(segment, value) {
+  switch(segment) {
+    case 0: ssd1.displayDigit(value); return;
+    case 1: ssd2.displayDigit(value); return;
+    case 2: ssd3.displayDigit(value); return;
+    case 3: ssd4.displayDigit(value); return;
+    case 4: ssd5.displayDigit(value); return;
+    case 5: ssd6.displayDigit(value); return;
+    default: break;
+  }
+};
+
 // ============================================================================
 // ============================================================================
 //   MAIN
