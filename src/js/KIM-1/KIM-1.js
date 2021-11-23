@@ -1058,11 +1058,14 @@ const IRQ = [
 // ============================================================================
 // ============================================================================
 
-// ======== RAM  0x0000-0x0400 ================================================
+// ======== RAM  0x0000-0x03FF ================================================
 var RAM = new Uint8Array(1024);
 
 // ======== RIOT chips memory 0x1700-0x17FF====================================
 var RIOT = new Uint8Array(256);
+RIOT[0x40] = 0xBF;
+RIOT[0x41] = 0x7F;
+RIOT[0x46] = 0xC7;  // timer
 //RIOT[0xFA] = 0xFD;  // mapped to 0x17FA
 //RIOT[0xFB] = 0xFF;  // mapped to 0x17FB
 //RIOT[0xFE] = 0xFF;  // mapped to 0x17FE
@@ -1077,29 +1080,26 @@ var RIOT = new Uint8Array(256);
 var cpu = new CPU6502.CPU6502();
 
 cpu.read = function(addr) {  
+  //console.log('read: ' + addr.toString(16));
+
   // IRQ addresses
-  if (addr >= 0xFFFA) {
-    console.log('PC: ' + cpu.PC.toString(16) + ' read: ' + addr.toString(16) + ' ' + IRQ[addr - 0xFFFA].toString(16));
-    return IRQ[addr - 0xFFFA];
-  }
+  if (addr >= 0xFFFA) return IRQ[addr - 0xFFFA];
   
   // KIM-1 ROM (HEX monitor)
   if (addr >= 0x1800) {
-      console.log('PC: ' + cpu.PC.toString(16) + ' read: ' + addr.toString(16) + ' ' + ROM[addr - 0x1800].toString(16));
-      return ROM[addr - 0x1800];
+    if (addr == 0x1EFE) cpu.A = 0xFF;  // no key
+    //if (addr == 0x1EA0) console.log('1747: ' + RIOT[addr - 0x1700]);
+    return ROM[addr - 0x1800];
   }
   
   // KIM-1 6530 RIOT chips
   if (addr >= 0x1700) {
-      console.log('PC: ' + cpu.PC.toString(16) + ' read: ' + addr.toString(16) + ' ' + RIOT[addr - 0x1700].toString(16));
-      return RIOT[addr - 0x1700];
+    if (addr == 1747) console.log('1747: ' + RIOT[addr - 0x1700]);
+    return RIOT[addr - 0x1700];
   }
   
   // KIM-1 RAM
-  if (addr <= 0x03FF) {
-      console.log('PC: ' + cpu.PC.toString(16) + ' read: ' + addr.toString(16) + ' ' + RAM[addr].toString(16));
-      return RAM[addr];
-  }
+  if (addr <= 0x03FF) return RAM[addr];
 
   // shouldn't get here  
   console.log('Error read address: 0x' + addr.toString(16));
@@ -1107,18 +1107,18 @@ cpu.read = function(addr) {
 }
 
 cpu.write = function(addr, value) {
-  console.log('PC: ' + cpu.PC.toString(16) + ' write: ' + addr.toString(16) + ' ' + value.toString(16));
+  //console.log('write: ' + addr.toString(16) + ' ' + value.toString(16));
   
   // KIM-1 6530 RIOT chips
   if (addr >= 0x1700) {
     RIOT[addr - 0x1700] = value;
+    if (addr == 0x1740) litLED();
     return;
   }
   
   // KIM-1 RAM
   if (addr <= 0x03FF) {
     RAM[addr] = value;
-    //console.log('write RAM 0x' + addr.toString(16) + ' ' + value.toString(16));
     return;
   }
 
@@ -1129,18 +1129,36 @@ cpu.write = function(addr, value) {
 
 // ============================================================================
 // ============================================================================
+//   7 SEGMENT DISPLAY
+// ============================================================================
+// ============================================================================
+
+const DISPLAY = {
+  '0': function(value) { ssd1.displayDigit(value); },
+  '1': function(value) { ssd2.displayDigit(value); },
+  '2': function(value) { ssd3.displayDigit(value); },
+  '3': function(value) { ssd4.displayDigit(value); },
+  '4': function(value) { ssd5.displayDigit(value); },
+  '5': function(value) { ssd6.displayDigit(value); },
+  '7': function() {}
+};
+
+// ============================================================================
+// ============================================================================
 //   MAIN
 // ============================================================================
 // ============================================================================
 
 // reset CPU
 cpu.reset();
+//RIOT[0x40] = 0x01;
+//RIOT[0x47] = 0xFF;
 
 // main loop
 function cpuLoop() {
   // execute next instruction
   cpu.step();
-  alert();
+  //cpu.log();
   //console.log('PC: 0x' + cpu.PC.toString(16));
   //cpu.log();
 
@@ -1148,8 +1166,5 @@ function cpuLoop() {
   setTimeout(cpuLoop, 0);
     
 } window.onload = function() { cpuLoop(); }
-
-
-
 
 

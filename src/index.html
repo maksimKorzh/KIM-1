@@ -9,6 +9,8 @@
   <meta charset="utf-8">
 </head>
   <body>
+    <button onclick="stepCPU()" style="position: absolute; left: 423px; top: 50px;">STEP</button>
+    <button onclick="resetCPU()" style="position: absolute; left: 100px; top: 50px;">RESET</button>
     <script src="js/7-segment-display/Segment.js"></script>
     <script src="js/7-segment-display/SegmentDisplay.js"></script>
     <script src="js/6502_CPU/6502.dev.js"></script>
@@ -16,7 +18,8 @@
     <script>
       function setup() {
         // Canvas
-        createCanvas(374, 80);
+        let cnv = createCanvas(374, 80);
+        cnv.position(100, 100);
         frameRate(25);
         ssd1 = new SegmentDisplay("7");
         ssd2 = new SegmentDisplay("7");
@@ -27,25 +30,23 @@
       }
       
       function draw() {
-        background(20);
-        ssd1.displayDigit(0x48 - 32); // display segments
+        background(25);
         ssd1.update();
-        //console.log("0x"+ ssd.SevenSegCodes[0x48 - 32].toString(16));
-        ssd2.displayDigit(0x45 - 32); // display segments
         ssd2.update();
-        //console.log("0x"+ ssd.SevenSegCodes[0x45 - 32].toString(16));
-        ssd3.displayDigit(0x6c - 32); // display segments
         ssd3.update();
-        
-        ssd4.displayDigit(0x6c - 32); // display segments
         ssd4.update();
-        
-        ssd5.displayDigit(0x6f - 32); // display segments
         ssd5.update();
-        
-        ssd6.displayDigit(0); // display segments
         ssd6.update();
       }
+      
+      function litLED() {
+        let segment = ((RIOT[0x42] - 9) >> 1) & 0x07;
+        
+        //if (segment < 6)
+          DISPLAY[segment.toString(16)](RIOT[0x40]);
+      }
+      function resetCPU() { cpu.reset(); cpu.log(); }
+      function stepCPU() { cpu.step(); cpu.log(); }
     </script>
 	</body>
 

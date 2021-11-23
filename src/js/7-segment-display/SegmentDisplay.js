@@ -308,15 +308,10 @@ class SegmentDisplay {
   }
 
   // Turns the segments on and off
-  displayDigit(digit) {
+  displayDigit(segmentCode) {
 	  
 	let segCode = 0;
-	switch(this.segmentsType){
-		case '7': segCode = this.SevenSegCodes[digit]; break;
-		case '9': segCode = this.NineSegCodes[digit]; break;
-		case '14': segCode = this.FourteenSegCodes[digit]; break;
-		case '16':  segCode = this.SixteenSegCodes[digit]; break;
-	}
+	segCode = segmentCode;
 	
 	for (let segmentNumber = 0; segmentNumber < this.segmentsType+1; segmentNumber++) {
 	  if ((segCode >> segmentNumber) & 1) {
