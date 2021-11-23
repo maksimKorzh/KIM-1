@@ -4,7 +4,7 @@
 // ============================================================================
 // ============================================================================
 
-const ROM = [
+const ROM = new Uint8Array([
 /* OrgASM 6502 Assembler.      TASM 3.3 (Macintosh OS X) May 2015. */
 /* 0000 */                     //  ;- - - - - - - - - - - - - - KIM.ASM - - - - - - - - - - -
 /* 0000 */                     //  ; COPYRIGHT MOS TECHNOLOGY, INC
@@ -948,7 +948,14 @@ const ROM = [
 /* 1F50 */ 0x8C, 0x40, 0x17,   //          STY   SAD       ; TURN OFF SEGMENTS
 /* 1F53 */ 0x8E, 0x42, 0x17,   //          STX   SBD       ; OUTPUT DIGIT ENABLE
 /* 1F56 */ 0x8D, 0x40, 0x17,   //          STA   SAD       ; OUTPUT SEGMENTS
-/* 1F59 */ 0xA0, 0x7F,         //          LDY   #$7F      ; DELAY 500 CYCLES
+/* 1F59 */ 
+
+           //0xEA, 0xEA,
+           //0xEA,
+           //0xEA, 0xEA,
+
+
+           0xA0, 0x7F,         //          LDY   #$7F      ; DELAY 500 CYCLES
 /* 1F5B */ 0x88,               //  CONVD1  DEY
 /* 1F5C */ 0xD0, 0xFD,         //          BNE   CONVD1
 /* 1F5E */ 0xE8,               //          INX             ; GET NEXT DIGIT NUMBER
@@ -1041,16 +1048,16 @@ const ROM = [
 /* 1FF3 */ 0xB9, 0xDE, 0xF9, 0xF1,  //
 /* 1FF7 */                     //  ; Fill unused locations with $FF
 /* 1FF7 */ 0xFF, 0xFF, 0xFF    //          .FILL 3, $FF
-];
+]);
 
 // Interrupt requests (instead of filling memory from 1FFF to FFFA with 0xFF)
-const IRQ = [
+const IRQ = new Uint8Array([
 /* FFFA */                     //  ;       ** INTERRUPT VECTORS **
 /* FFFA */                     //          .org  $1FFA
 /* FFFA */ 0x1C, 0x1C,         //  NMIENT  .WORD NMIT
 /* FFFC */ 0x22, 0x1C,         //  RSTENT  .WORD RST
 /* FFFE */ 0x1F, 0x1C          //  IRQENT  .WORD IRQT
-];
+]);
 
 // ============================================================================
 // ============================================================================
@@ -1063,13 +1070,13 @@ var RAM = new Uint8Array(1024);
 
 // ======== RIOT chips memory 0x1700-0x17FF====================================
 var RIOT = new Uint8Array(256);
-RIOT[0x40] = 0xBF;
-RIOT[0x41] = 0x7F;
-RIOT[0x46] = 0xC7;  // timer
-//RIOT[0xFA] = 0xFD;  // mapped to 0x17FA
-//RIOT[0xFB] = 0xFF;  // mapped to 0x17FB
-//RIOT[0xFE] = 0xFF;  // mapped to 0x17FE
-//RIOT[0xFF] = 0xFF;  // mapped to 0x17FF
+RIOT[0x40] = 0xBF; // otherwise nothing shows up on display...
+//RIOT[0x41] = 0x7F;
+//RIOT[0x46] = 0xF0;  // timer
+RIOT[0xFA] = 0x00; //0xFD;  // mapped to 0x17FA
+RIOT[0xFB] = 0x1C; //0xFF;  // mapped to 0x17FB
+RIOT[0xFE] = 0x00; //0xFF;  // mapped to 0x17FE
+RIOT[0xFF] = 0x1C; //0xFF;  // mapped to 0x17FF
 
 // ============================================================================
 // ============================================================================
@@ -1095,6 +1102,12 @@ cpu.read = function(addr) {
   // KIM-1 6530 RIOT chips
   if (addr >= 0x1700) {
     if (addr == 1747) console.log('1747: ' + RIOT[addr - 0x1700]);
+    
+    //console.log('RIOT read...' + addr.toString(16));
+    /*if (addr >= 1704 && addr <= 1707) {
+      console.log('TIMER READ');
+    }*/
+    
     return RIOT[addr - 0x1700];
   }
   
@@ -1107,12 +1120,44 @@ cpu.read = function(addr) {
 }
 
 cpu.write = function(addr, value) {
-  //console.log('write: ' + addr.toString(16) + ' ' + value.toString(16));
+  if (addr == 0x1746)  console.log('write: ' + addr.toString(16) + ' ' + value.toString(16));
   
   // KIM-1 6530 RIOT chips
   if (addr >= 0x1700) {
     RIOT[addr - 0x1700] = value;
     if (addr == 0x1740) litLED();
+    if (addr >= 1704 && addr <= 1707) {
+      console.log('TIMER WRITE');
+      let timerDiv = 0;
+      if ((value <= 0) || (value > 0xFF)) {
+        console.log("riotTimerWrite(): Timer set to zero! Abort");
+        RIOT[0x07] = 0x80;  // 0x1707
+        RIOT[0x06] = 0;     // 0x1706
+        //let timerDiv = 1;
+        return;
+      }
+      switch(address) {
+        case 0x1704:
+          timerDiv = 1 ; //1
+          break;
+        case 0x1705:
+          timerDiv = 8; //8
+          break;
+        case 0x1706:
+          timerDiv = 64; //64
+          break;
+        case 0x1707:
+          timerDiv = 1024; // 1024
+          break;
+        default:
+          timerDiv = 1024;
+      }
+      console.log('riotTimerWrite(): timerDiv: ' + timerDiv);
+      RIOT[0x06] = (value * timerDiv) + Date.now() - start - 200;
+      console.log(", set 0x1706 to " + value);
+      RIOT[0x07] = 0;
+    }
+    
     return;
   }
   
@@ -1157,7 +1202,11 @@ cpu.reset();
 // main loop
 function cpuLoop() {
   // execute next instruction
+  
   cpu.step();
+  
+  if (cpu.PC == 0x1F37) stepStart = Date.now();
+  if (cpu.PC == 0x1F3A) console.log(Date.now() - stepStart);
   //cpu.log();
   //console.log('PC: 0x' + cpu.PC.toString(16));
   //cpu.log();
