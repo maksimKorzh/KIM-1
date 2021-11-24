@@ -1178,25 +1178,28 @@ cpu.write = function(addr, value) {
 // ============================================================================
 // ============================================================================
 
-const DISPLAY = {
-  '0': function(value) { ssd1.displayDigit(value); },
-  '1': function(value) { ssd2.displayDigit(value); },
-  '2': function(value) { ssd3.displayDigit(value); },
-  '3': function(value) { ssd4.displayDigit(value); },
-  '4': function(value) { ssd5.displayDigit(value); },
-  '5': function(value) { ssd6.displayDigit(value); },
-  '7': function() {}
-};
-
 function display(segment, value) {
-  switch(segment) {
+  
+  
+  /*switch(segment) {
     case 0: ssd1.displayDigit(value); return;
     case 1: ssd2.displayDigit(value); return;
     case 2: ssd3.displayDigit(value); return;
     case 3: ssd4.displayDigit(value); return;
     case 4: ssd5.displayDigit(value); return;
     case 5: ssd6.displayDigit(value); return;
-    default: break;
+    default: return;
+  }*/
+  
+  //background(25);
+  switch(segment) {
+    case 0: ssd1.displayDigit(value); ssd1.update(); return;
+    case 1: ssd2.displayDigit(value); ssd2.update(); return;
+    case 2: ssd3.displayDigit(value); ssd3.update(); return;
+    case 3: ssd4.displayDigit(value); ssd4.update(); return;
+    case 4: ssd5.displayDigit(value); ssd5.update(); return;
+    case 5: ssd6.displayDigit(value); ssd6.update(); return;
+    default: return;
   }
 };
 
@@ -1208,24 +1211,43 @@ function display(segment, value) {
 
 // reset CPU
 cpu.reset();
-//RIOT[0x40] = 0x01;
-//RIOT[0x47] = 0xFF;
 
 // main loop
 function cpuLoop() {
-  // execute next instruction
-  
-  cpu.step();
-  
-  if (cpu.PC == 0x1F37) stepStart = Date.now();
-  if (cpu.PC == 0x1F3A) console.log(Date.now() - stepStart);
+  //var start = Date.now();
+  cpu.cycles = 0;
+   
+  while(cpu.cycles < 100000) {
+    cpu.step();
+  }
   //cpu.log();
-  //console.log('PC: 0x' + cpu.PC.toString(16));
-  //cpu.log();
+  //var timeSpent = Date.now() - start;
+  //var cyclesPerMs = 1 / (timeSpent / cpu.cycles);
+  //var cyclesPerS = Math.round(cyclesPerMs * 1000);
+  //var mhz = Math.round(cyclesPerMs / 1000, 2)
+  //console.log(mhz);
+}
 
-  // infinite execute
-  setTimeout(cpuLoop, 0);
-    
-} window.onload = function() { cpuLoop(); }
+
+/*setTimeout(function(){
+  console.log('async');
+  var start = Date.now();
+  cpu.cycles = 0;
+
+  while(cpu.cycles < 100000000) {
+    cpu.step();
+  }
+  
+  var timeSpent=Date.now() - start;
+  var cyclesPerMs=1/(timeSpent/cpu.cycles);
+  var cyclesPerS=Math.round(cyclesPerMs*1000);
+  var mhz=Math.round(cyclesPerMs/1000, 2)
+
+},10);*/
+
+
+
+
+
 
 
