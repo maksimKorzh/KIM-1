@@ -13,13 +13,13 @@ class SegmentDisplay {
   constructor(type) {
 	// Default config
 	this._offsetVector = createVector(15, 10);
-	//this._offColor = color(255, 0, 0, 40);
-	this._offColor = color(200, 200, 200);
+	this._offColor = color(255, 0, 0, 80);
 	this._onColor = color(255, 0, 0);
 	this._segmentLength = 20;
 	this._segmentWidth = 5;
 	// Load segment objects
 	this.segmentsType = type;
+	this.segmentCode = 0;
 	this.segments = [];
 	this.initSegments();
   }
@@ -313,6 +313,7 @@ class SegmentDisplay {
 	  
 	let segCode = 0;
 	segCode = segmentCode;
+	//this.segmentCode = segCode;  // to update only when non-zero value
 	
 	for (let segmentNumber = 0; segmentNumber < this.segmentsType+1; segmentNumber++) {
 	  if ((segCode >> segmentNumber) & 1) {

@@ -1125,7 +1125,7 @@ cpu.write = function(addr, value) {
   // KIM-1 6530 RIOT chips
   if (addr >= 0x1700) {
     RIOT[addr - 0x1700] = value;
-    if (addr == 0x1740) litLED();
+    if (addr == 0x1740) driveLED();
     if (addr >= 1704 && addr <= 1707) {
       console.log('TIMER WRITE');
       let timerDiv = 0;
@@ -1178,10 +1178,18 @@ cpu.write = function(addr, value) {
 // ============================================================================
 // ============================================================================
 
-function display(segment, value) {
-  
-  
-  /*switch(segment) {
+function driveLED() {
+  // extract value
+  let value = RIOT[0x40];
+
+  // update only on non-zero values to avoid flickering
+  if (!value) return;
+
+  // extracy segment
+  let segment = ((RIOT[0x42] - 9) >> 1) & 0x07;
+
+  // update LED
+  switch(segment) {
     case 0: ssd1.displayDigit(value); return;
     case 1: ssd2.displayDigit(value); return;
     case 2: ssd3.displayDigit(value); return;
@@ -1189,19 +1197,8 @@ function display(segment, value) {
     case 4: ssd5.displayDigit(value); return;
     case 5: ssd6.displayDigit(value); return;
     default: return;
-  }*/
-  
-  //background(25);
-  switch(segment) {
-    case 0: ssd1.displayDigit(value); ssd1.update(); return;
-    case 1: ssd2.displayDigit(value); ssd2.update(); return;
-    case 2: ssd3.displayDigit(value); ssd3.update(); return;
-    case 3: ssd4.displayDigit(value); ssd4.update(); return;
-    case 4: ssd5.displayDigit(value); ssd5.update(); return;
-    case 5: ssd6.displayDigit(value); ssd6.update(); return;
-    default: return;
   }
-};
+}
 
 // ============================================================================
 // ============================================================================
@@ -1211,39 +1208,23 @@ function display(segment, value) {
 
 // reset CPU
 cpu.reset();
+let stats = document.getElementById('stats');
 
 // main loop
 function cpuLoop() {
-  //var start = Date.now();
-  cpu.cycles = 0;
-   
-  while(cpu.cycles < 100000) {
-    cpu.step();
-  }
-  //cpu.log();
-  //var timeSpent = Date.now() - start;
-  //var cyclesPerMs = 1 / (timeSpent / cpu.cycles);
-  //var cyclesPerS = Math.round(cyclesPerMs * 1000);
-  //var mhz = Math.round(cyclesPerMs / 1000, 2)
-  //console.log(mhz);
-}
-
-
-/*setTimeout(function(){
-  console.log('async');
   var start = Date.now();
   cpu.cycles = 0;
-
-  while(cpu.cycles < 100000000) {
-    cpu.step();
-  }
   
-  var timeSpent=Date.now() - start;
-  var cyclesPerMs=1/(timeSpent/cpu.cycles);
-  var cyclesPerS=Math.round(cyclesPerMs*1000);
-  var mhz=Math.round(cyclesPerMs/1000, 2)
+  while (cpu.cycles < 1000) cpu.step(); // 1000
+  
+  let timeSpent=Date.now() - start;
+  let cyclesPerMs=1/(timeSpent/cpu.cycles);
+  let cyclesPerS=Math.round(cyclesPerMs*1000);
+  let mhz=Math.round(cyclesPerMs/1000, 2)
+  if (timeSpent) stats.innerHTML = mhz + ' Mhz (' + cyclesPerS + ' cycles per second)';
 
-},10);*/
+  setTimeout(cpuLoop, 0);
+} window.onload = function() { cpuLoop(); }
 
 
 

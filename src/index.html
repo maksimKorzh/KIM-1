@@ -11,40 +11,36 @@
   <body>
     <button onclick="stepCPU()" style="position: absolute; left: 423px; top: 50px;">STEP</button>
     <button onclick="resetCPU()" style="position: absolute; left: 100px; top: 50px;">RESET</button>
+    <div id="stats" style="position: absolute; left: 178px; top: 52px;"></div>
     <script src="js/7-segment-display/Segment.js"></script>
     <script src="js/7-segment-display/SegmentDisplay.js"></script>
     <script src="js/6502_CPU/6502.dev.js"></script>
     <script src="js/KIM-1/KIM-1.js"></script>
+    
     <script>
-      var START = Date.now();
       function setup() {
         // Canvas
         let cnv = createCanvas(374, 80);
         cnv.position(100, 100);
-        frameRate(25);
-        ssd1 = new SegmentDisplay("7");
-        ssd2 = new SegmentDisplay("7");
-        ssd3 = new SegmentDisplay("7");
-        ssd4 = new SegmentDisplay("7");
-        ssd5 = new SegmentDisplay("7");
-        ssd6 = new SegmentDisplay("7");
+        frameRate(60);
+        ssd1 = new SegmentDisplay("7"); ssd1.update();
+        ssd2 = new SegmentDisplay("7"); ssd2.update();
+        ssd3 = new SegmentDisplay("7"); ssd3.update();
+        ssd4 = new SegmentDisplay("7"); ssd4.update();
+        ssd5 = new SegmentDisplay("7"); ssd5.update();
+        ssd6 = new SegmentDisplay("7"); ssd6.update();
       }
       
       function draw() {
-        //background(25);
-        cpuLoop();
-        /*ssd1.update();
+        background(25);
+        ssd1.update();
         ssd2.update();
         ssd3.update();
         ssd4.update();
         ssd5.update();
-        ssd6.update();*/
+        ssd6.update();
       }
       
-      function litLED() {
-        let segment = ((RIOT[0x42] - 9) >> 1) & 0x07;
-        display(segment, RIOT[0x40]);
-      }
       function resetCPU() { cpu.reset(); cpu.log(); }
       function stepCPU() { cpu.step(); cpu.log(); }
     </script>
