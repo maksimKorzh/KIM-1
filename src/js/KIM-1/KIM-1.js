@@ -1090,6 +1090,18 @@ var cpu = new CPU6502.CPU6502();
 var key_bits = [0xbf, 0xdf, 0xef, 0xf7, 0xfb, 0xfd, 0xfe];
 var char_pending = 0x15;  // no key
 
+function stop() {
+  alert('ST not implemented yet');
+  /*push16(pc);
+  push8(status);
+  status |= FLAG_INTERRUPT;
+  pc = (uint16_t)read6502(0xFFFA) | ((uint16_t)read6502(0xFFFB) << 8);*/
+}
+
+function reset() {
+  alert('RS not implemented yet');
+}
+
 cpu.read = function(addr) {
   // IRQ addresses
   if (addr >= 0xFFFA) return IRQ[addr - 0xFFFA];
@@ -1203,6 +1215,11 @@ function driveLED() {
 cpu.reset();
 
 let stats = document.getElementById('stats');
+
+//cpu.write(0x17FA, 0x00);
+//cpu.write(0x17FB, 0x1C);
+//cpu.write(0x17FE, 0x00);
+//cpu.write(0x17FF, 0x1C);
 
 // main loop
 function cpuLoop() {
