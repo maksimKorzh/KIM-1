@@ -1070,13 +1070,13 @@ var RAM = new Uint8Array(1024);
 
 // ======== RIOT chips memory 0x1700-0x17FF====================================
 var RIOT = new Uint8Array(256);
-RIOT[0x40] = 0xBF; // otherwise nothing shows up on display...
+//RIOT[0x40] = 0xBF; // otherwise nothing shows up on display...
 //RIOT[0x41] = 0x7F;
 //RIOT[0x46] = 0xF0;  // timer
-RIOT[0xFA] = 0x00; //0xFD;  // mapped to 0x17FA
-RIOT[0xFB] = 0x1C; //0xFF;  // mapped to 0x17FB
-RIOT[0xFE] = 0x00; //0xFF;  // mapped to 0x17FE
-RIOT[0xFF] = 0x1C; //0xFF;  // mapped to 0x17FF
+//RIOT[0xFA] = 0x00; //0xFD;  // mapped to 0x17FA
+//RIOT[0xFB] = 0x1C; //0xFF;  // mapped to 0x17FB
+//RIOT[0xFE] = 0x00; //0xFF;  // mapped to 0x17FE
+//RIOT[0xFF] = 0x1C; //0xFF;  // mapped to 0x17FF
 
 // ============================================================================
 // ============================================================================
@@ -1086,27 +1086,52 @@ RIOT[0xFF] = 0x1C; //0xFF;  // mapped to 0x17FF
 
 var cpu = new CPU6502.CPU6502();
 
-cpu.read = function(addr) {  
-  //console.log('read: ' + addr.toString(16));
+// KIM-1 key codes
+var key_bits = [0xbf, 0xdf, 0xef, 0xf7, 0xfb, 0xfd, 0xfe];
+var char_pending = 0x15;  // no key
 
+cpu.read = function(addr) {
   // IRQ addresses
   if (addr >= 0xFFFA) return IRQ[addr - 0xFFFA];
   
   // KIM-1 ROM (HEX monitor)
   if (addr >= 0x1800) {
-    if (addr == 0x1EFE) cpu.A = 0xFF;  // no key
-    //if (addr == 0x1EA0) console.log('1747: ' + RIOT[addr - 0x1700]);
     return ROM[addr - 0x1800];
   }
   
   // KIM-1 6530 RIOT chips
   if (addr >= 0x1700) {
-    if (addr == 1747) console.log('1747: ' + RIOT[addr - 0x1700]);
-    
-    //console.log('RIOT read...' + addr.toString(16));
-    /*if (addr >= 1704 && addr <= 1707) {
-      console.log('TIMER READ');
-    }*/
+    // read key press
+    if (addr == 0x1740) {
+      let sv = (RIOT[0x42] >> 1) & 0xf;
+      
+      if (sv == 0) {
+        if (char_pending <= 6) {
+          return key_bits[char_pending];
+        } else {
+          return 0xff;
+        }
+      } else if (sv == 1) {
+        if ((char_pending >= 7) && (char_pending <= 13)) {
+          return key_bits[char_pending-7];
+        } else {
+          return 0xff;
+        }
+      } else if (sv == 2) {
+        if ((char_pending >= 14) && (char_pending <= 20)) {
+          return key_bits[char_pending-14];
+        } else {
+          return 0xff;
+        }
+      } else if (sv == 3) {
+        /*if (kim1_serial_mode) {
+          return 0;
+        }*/
+          return 0xff;
+      } else {
+          return 0x80;
+      }
+    }
     
     return RIOT[addr - 0x1700];
   }
@@ -1120,44 +1145,12 @@ cpu.read = function(addr) {
 }
 
 cpu.write = function(addr, value) {
-  if (addr == 0x1746)  console.log('write: ' + addr.toString(16) + ' ' + value.toString(16));
+  //if (addr == 0x1746)  console.log('write: ' + addr.toString(16) + ' ' + value.toString(16));
   
   // KIM-1 6530 RIOT chips
   if (addr >= 0x1700) {
     RIOT[addr - 0x1700] = value;
     if (addr == 0x1740) driveLED();
-    if (addr >= 1704 && addr <= 1707) {
-      console.log('TIMER WRITE');
-      let timerDiv = 0;
-      if ((value <= 0) || (value > 0xFF)) {
-        console.log("riotTimerWrite(): Timer set to zero! Abort");
-        RIOT[0x07] = 0x80;  // 0x1707
-        RIOT[0x06] = 0;     // 0x1706
-        //let timerDiv = 1;
-        return;
-      }
-      switch(address) {
-        case 0x1704:
-          timerDiv = 1 ; //1
-          break;
-        case 0x1705:
-          timerDiv = 8; //8
-          break;
-        case 0x1706:
-          timerDiv = 64; //64
-          break;
-        case 0x1707:
-          timerDiv = 1024; // 1024
-          break;
-        default:
-          timerDiv = 1024;
-      }
-      console.log('riotTimerWrite(): timerDiv: ' + timerDiv);
-      RIOT[0x06] = (value * timerDiv) + Date.now() - start - 200;
-      console.log(", set 0x1706 to " + value);
-      RIOT[0x07] = 0;
-    }
-    
     return;
   }
   
@@ -1208,6 +1201,7 @@ function driveLED() {
 
 // reset CPU
 cpu.reset();
+
 let stats = document.getElementById('stats');
 
 // main loop
@@ -1215,13 +1209,15 @@ function cpuLoop() {
   var start = Date.now();
   cpu.cycles = 0;
   
-  while (cpu.cycles < 1000) cpu.step(); // 1000
+  while (cpu.cycles < 1000) {
+    cpu.step(); // 1000
+  }
   
   let timeSpent=Date.now() - start;
   let cyclesPerMs=1/(timeSpent/cpu.cycles);
   let cyclesPerS=Math.round(cyclesPerMs*1000);
   let mhz=Math.round(cyclesPerMs/1000, 2)
-  if (timeSpent) stats.innerHTML = mhz + ' Mhz (' + cyclesPerS + ' cycles per second)';
+  //if (timeSpent) stats.innerHTML = mhz + ' Mhz (' + cyclesPerS + ' cycles per second)';
 
   setTimeout(cpuLoop, 0);
 } window.onload = function() { cpuLoop(); }
