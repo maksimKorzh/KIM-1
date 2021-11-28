@@ -313,7 +313,6 @@ class SegmentDisplay {
 	  
 	let segCode = 0;
 	segCode = segmentCode;
-	//this.segmentCode = segCode;  // to update only when non-zero value
 	
 	for (let segmentNumber = 0; segmentNumber < this.segmentsType+1; segmentNumber++) {
 	  if ((segCode >> segmentNumber) & 1) {

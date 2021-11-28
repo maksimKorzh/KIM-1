@@ -1054,7 +1054,7 @@ const ROM = new Uint8Array([
 const IRQ = new Uint8Array([
 /* FFFA */                     //  ;       ** INTERRUPT VECTORS **
 /* FFFA */                     //          .org  $1FFA
-/* FFFA */ 0x1C, 0x1C,         //  NMIENT  .WORD NMIT
+/* FFFA */ 0x00, 0x1C,         //  NMIENT  .WORD NMIT
 /* FFFC */ 0x22, 0x1C,         //  RSTENT  .WORD RST
 /* FFFE */ 0x1F, 0x1C          //  IRQENT  .WORD IRQT
 ]);
@@ -1070,13 +1070,6 @@ var RAM = new Uint8Array(1024);
 
 // ======== RIOT chips memory 0x1700-0x17FF====================================
 var RIOT = new Uint8Array(256);
-//RIOT[0x40] = 0xBF; // otherwise nothing shows up on display...
-//RIOT[0x41] = 0x7F;
-//RIOT[0x46] = 0xF0;  // timer
-//RIOT[0xFA] = 0x00; //0xFD;  // mapped to 0x17FA
-//RIOT[0xFB] = 0x1C; //0xFF;  // mapped to 0x17FB
-//RIOT[0xFE] = 0x00; //0xFF;  // mapped to 0x17FE
-//RIOT[0xFF] = 0x1C; //0xFF;  // mapped to 0x17FF
 
 // ============================================================================
 // ============================================================================
@@ -1085,21 +1078,31 @@ var RIOT = new Uint8Array(256);
 // ============================================================================
 
 var cpu = new CPU6502.CPU6502();
+var single_step = 0;
 
 // KIM-1 key codes
 var key_bits = [0xbf, 0xdf, 0xef, 0xf7, 0xfb, 0xfd, 0xfe];
 var char_pending = 0x15;  // no key
 
+// trigger NMI
 function stop() {
-  alert('ST not implemented yet');
-  /*push16(pc);
-  push8(status);
-  status |= FLAG_INTERRUPT;
-  pc = (uint16_t)read6502(0xFFFA) | ((uint16_t)read6502(0xFFFB) << 8);*/
+  // push PC to stack
+  cpu.write(cpu.S + 0x100, (cpu.PC - 1) >> 8);
+  cpu.S = (cpu.S - 1) & 0xFF;
+  cpu.write(cpu.S + 0x100, (cpu.PC - 1) & 0xFF);
+  cpu.S = (cpu.S - 1) & 0xFF;
+  cpu.PC = cpu.read(0xFFFA) | (cpu.read(0xFFFB) << 8);
+  cpu.cycles += 2;
+  
+  // push status register to stack
+  cpu.write(cpu.S + 0x100, (cpu.C | cpu.Z | cpu.I | cpu.D | cpu.C | cpu.V));
+  cpu.S = (cpu.S - 1) & 0xFF;
+  cpu.I = 1;
+  cpu.cycles++;
 }
 
 function reset() {
-  alert('RS not implemented yet');
+  cpu.reset();
 }
 
 cpu.read = function(addr) {
@@ -1187,10 +1190,10 @@ function driveLED() {
   // extract value
   let value = RIOT[0x40];
 
-  // update only on non-zero values to avoid flickering
-  if (!value) return;
+  // hack to avoid display flickering
+  if (!value) RIOT[0x42] += 2;
 
-  // extracy segment
+  // extract segment
   let segment = ((RIOT[0x42] - 9) >> 1) & 0x07;
 
   // update LED
@@ -1214,12 +1217,13 @@ function driveLED() {
 // reset CPU
 cpu.reset();
 
-let stats = document.getElementById('stats');
+var stats = document.getElementById('stats');
 
-//cpu.write(0x17FA, 0x00);
-//cpu.write(0x17FB, 0x1C);
-//cpu.write(0x17FE, 0x00);
-//cpu.write(0x17FF, 0x1C);
+// set KIM-1 'vector' locations
+cpu.write(0x17FA, 0x00);
+cpu.write(0x17FB, 0x1C);
+cpu.write(0x17FE, 0x00);
+cpu.write(0x17FF, 0x1C);
 
 // main loop
 function cpuLoop() {
@@ -1227,14 +1231,22 @@ function cpuLoop() {
   cpu.cycles = 0;
   
   while (cpu.cycles < 1000) {
-    cpu.step(); // 1000
+    // This seems like a hack but it's basically how the hardware does it
+    let enable_SST_NMI = single_step && (cpu.PC < 0x1c00);
+    cpu.step();
+    
+    // if SST mode is ON
+    if (single_step && enable_SST_NMI) {
+      cpu.PC++;
+      stop();
+    }
   }
   
-  let timeSpent=Date.now() - start;
-  let cyclesPerMs=1/(timeSpent/cpu.cycles);
-  let cyclesPerS=Math.round(cyclesPerMs*1000);
-  let mhz=Math.round(cyclesPerMs/1000, 2)
-  //if (timeSpent) stats.innerHTML = mhz + ' Mhz (' + cyclesPerS + ' cycles per second)';
+  let timeSpent = Date.now() - start;
+  let cyclesPerMs = 1 / (timeSpent / cpu.cycles);
+  let cyclesPerS = Math.round(cyclesPerMs * 1000);
+  let mhz = Math.round(cyclesPerMs / 1000, 2);
+  if (timeSpent && mhz) stats.innerHTML = 'Running at ' + mhz + ' Mhz (' + cyclesPerS + ' cycles per second)';
 
   setTimeout(cpuLoop, 0);
 } window.onload = function() { cpuLoop(); }

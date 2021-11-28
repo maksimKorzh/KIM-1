@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+  <title>Online KIM-1 emulator</title>
+  <script src="js/7-segment-display/p5.min.js"></script>
+  <script src="js/7-segment-display/p5.dom.min.js"></script>
+  <script src="js/7-segment-display/p5.sound.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="">
+  <meta charset="utf-8">
+</head>
+  <body>
+    <!-- Emulator -->
+    <div>
+      <img src="img/KIM-1.jpg" style="position: absolute; left: 0px; top: 0px;"/>
+      <input type="checkbox" onchange="single_step ^= 1" style="position: absolute; width: 22px; height: 22px; left: 650px; top: 665px; background-color: Transparent; cursor: pointer;"/>
+      <button onmousedown="keypad(0x13);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x13)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 661px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="stop();"       onmouseup="char_pending = 0x15;" ontouchstart="stop();"      ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 560px; top: 661px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="reset();"      onmouseup="char_pending = 0x15;" ontouchstart="reset();"     ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 605px; top: 661px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="keypad(0x10);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x10)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 706px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="keypad(0x11);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x11)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 560px; top: 706px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="keypad(0x14);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x14)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 605px; top: 706px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="keypad(0x12);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x12)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 650px; top: 706px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="keypad(0x0c);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0c)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 751px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="keypad(0x0d);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0d)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 560px; top: 751px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="keypad(0x0e);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0e)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 605px; top: 751px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="keypad(0x0f);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0f)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 650px; top: 751px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="keypad(0x08);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x08)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 796px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="keypad(0x09);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x09)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 560px; top: 796px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="keypad(0x0a);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0a)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 605px; top: 796px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="keypad(0x0b);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0b)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 650px; top: 796px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="keypad(0x04);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x04)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 841px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="keypad(0x05);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x05)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 560px; top: 841px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="keypad(0x06);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x06)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 605px; top: 841px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="keypad(0x07);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x07)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 650px; top: 841px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="keypad(0x00);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x00)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 886px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="keypad(0x01);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x01)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 560px; top: 886px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="keypad(0x02);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x02)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 605px; top: 886px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="keypad(0x03);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x03)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 650px; top: 886px; background-color: Transparent; cursor: pointer;"></button>
+    </div>
+    
+    <!-- Assembler -->
+    <div class="widget" style="position: absolute; left: 750px; top: 9px;">
+      <div class="notes">
+        <pre>
+          <code>
+==============================================
+ Useful ROM Routines
+==============================================
+----------------------------------------------
+ Usage:    define GETKEY $1F6A
+           JSR GETKEY
+----------------------------------------------
+
+  AK       $1EFE Check for key depressed. A non-zero: no key down. A equal 0, key down.
+  SCAND    $1F19 Display address and contents.
+  SCANDS   $1F1F Output six hex characters on display. Stored in $00F9, $00FA, $00FB.
+  GETKEY   $1F6A Get key from keypad
+  CONVD    $1F48 Output HEX digit
+  OUTPUT   $1F4E Output 7 segment code stored in A register (to lit up a custom segment)
+  KEYIN    $1F40 Open up keyboard channel. Call before using GETKEY (or call SCANDS).
+  INCPT    $1F63 Increment display address.
+  GETKEY   $1F6A Return key from keyboard. Value 0-F, 10(AD), 11(DA), 12(+), 13(GO), 14(PC), 15 (no keypress).
+  TABLE    $1FE7 Table of 7-segment patterns.
+  SAVE     $1C00 Normal interrupt entry point.
+  RST      $1C22 Reset return to monitor.
+  START    $1C4F Return to monitor entry
+
+==============================================
+ Machine Context (saved/restored by ST/GO):
+==============================================
+
+  00EF PC low
+  00F0 PC high
+  00F1 Status Register (flags)
+  00F2 Stack Pointer
+  00F3 A
+  00F4 Y
+  00F5 X
+
+==============================================
+ NMI Initialization for Single Step and Stop:
+==============================================
+  (Pre-loaded into RAM)
+  17FA 00
+  17FB 1C
+
+==============================================
+ IRQ Initialization for BRK:
+==============================================
+  (Pre-loaded into RAM)
+  17FE 00
+  17FF 1C
+          </code>
+        </pre>
+      </div>
+      <div class="messages"><pre><code></code></pre></div>
+      <canvas class="screen" width="160" height="160" hidden></canvas>
+      <div class="debugger" hidden>
+        <input type="checkbox" class="debug" name="debug" />
+        <label for="debug">Debugger</label>
+        <div class="minidebugger"></div>
+        <div class="buttons">
+          <input type="button" value="Step" class="stepButton" />
+          <input type="button" value="Jump to ..." class="gotoButton" />
+        </div>
+      </div>
+
+      <div class="monitorControls">
+        <label for="start" hidden>Start: $</label>
+        <input type="text" hidden value="0" class="start" name="start" />
+        <label for="length" hidden>Length: $</label>
+        <input type="text" hidden value="ff" class="length" name="length"/>
+        <input type="button" value="Assemble" class="assembleButton" />
+        <input type="button" value="Upload" class="runButton" />
+        <input type="button" hidden value="Reset" class="resetButton" />
+        <input type="button" value="Hexdump" class="hexdumpButton" />
+        <input type="button" value="Disassemble" class="disassembleButton" />
+        <input type="button" value="KIM dump" class="notesButton" hidden/>
+        <label id="stats"></label>
+      </div>
+      <textarea class="code" spellcheck="false"></textarea>
+      <div class="monitor" hidden><pre><code></code></pre></div>    
+    <script src="js/7-segment-display/Segment.js"></script>
+    <script src="js/7-segment-display/SegmentDisplay.js"></script>
+    <script src="js/6502_CPU/6502.dev.js"></script>
+    <script src="js/KIM-1/KIM-1.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="js/ASM/assembler.js"></script>
+    
+    <script>
+      function setup() {
+        // Canvas
+        let cnv = createCanvas(235, 64);
+        cnv.position(473, 516);
+        frameRate(60);
+        ssd1 = new SegmentDisplay("7"); ssd1.update();
+        ssd2 = new SegmentDisplay("7"); ssd2.update();
+        ssd3 = new SegmentDisplay("7"); ssd3.update();
+        ssd4 = new SegmentDisplay("7"); ssd4.update();
+        ssd5 = new SegmentDisplay("7"); ssd5.update();
+        ssd6 = new SegmentDisplay("7"); ssd6.update();
+      }
+      
+      function draw() {
+        background(25);
+        ssd1.update();
+        ssd2.update();
+        ssd3.update();
+        ssd4.update();
+        ssd5.update();
+        ssd6.update();
+      }
+      
+      function keypad(key) { char_pending = key; }
+      function resetCPU() { cpu.reset(); cpu.log(); }
+      function stepCPU() { cpu.step(); cpu.log(); }
+    </script>
+	</body>
+
+</html>

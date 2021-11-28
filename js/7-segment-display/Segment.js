@@ -16,12 +16,13 @@ class Segment
   
   /* Set Color when Off */
   set offColor(color) {
+    // a delay to mimic real LED slow light down
   	this._offColor = color;
   }
   
   /* Set Color when On */
   set onColor(color) {
-  	this._onColor = color;
+    this._onColor = color;
   }
   
 	/* Set Length in pixels */
