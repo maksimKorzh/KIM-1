@@ -14,7 +14,7 @@
     <div>
       <img src="img/KIM-1.jpg" style="position: absolute; left: 0px; top: 0px;"/>
       <input type="checkbox" onchange="single_step ^= 1" style="position: absolute; width: 22px; height: 22px; left: 650px; top: 665px; background-color: Transparent; cursor: pointer;"/>
-      <button onmousedown="keypad(0x13);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x13)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 661px; background-color: Transparent; cursor: pointer;"></button>
+      <button onmousedown="keypad(0x13);" onmouseup="lightdown(); char_pending = 0x15;" ontouchstart="keypad(0x13);" ontouchend="lightdown(); char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 661px; background-color: Transparent; cursor: pointer;"></button>
       <button onmousedown="stop();"       onmouseup="char_pending = 0x15;" ontouchstart="stop();"      ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 560px; top: 661px; background-color: Transparent; cursor: pointer;"></button>
       <button onmousedown="reset();"      onmouseup="char_pending = 0x15;" ontouchstart="reset();"     ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 605px; top: 661px; background-color: Transparent; cursor: pointer;"></button>
       <button onmousedown="keypad(0x10);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x10)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 706px; background-color: Transparent; cursor: pointer;"></button>
@@ -65,6 +65,13 @@
   SAVE     $1C00 Normal interrupt entry point.
   RST      $1C22 Reset return to monitor.
   START    $1C4F Return to monitor entry
+
+==============================================
+ I/O addresses
+==============================================
+
+  $1740    7 segment output / keypad code
+  $1742    display digit / keypad row
 
 ==============================================
  Machine Context (saved/restored by ST/GO):
@@ -129,8 +136,8 @@
     <script src="js/ASM/assembler.js"></script>
     
     <script>
+      // init display
       function setup() {
-        // Canvas
         let cnv = createCanvas(235, 64);
         cnv.position(473, 516);
         frameRate(60);
@@ -142,6 +149,7 @@
         ssd6 = new SegmentDisplay("7"); ssd6.update();
       }
       
+      // update display
       function draw() {
         background(25);
         ssd1.update();
@@ -150,6 +158,16 @@
         ssd4.update();
         ssd5.update();
         ssd6.update();
+      }
+      
+      // hack to light down LEDs before running a program        
+      function lightdown() {
+        ssd1.displayDigit(0); ssd1.update();
+        ssd2.displayDigit(0); ssd2.update();
+        ssd3.displayDigit(0); ssd3.update();
+        ssd4.displayDigit(0); ssd4.update();
+        ssd5.displayDigit(0); ssd5.update();
+        ssd6.displayDigit(0); ssd6.update();
       }
       
       function keypad(key) { char_pending = key; }

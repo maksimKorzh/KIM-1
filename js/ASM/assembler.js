@@ -90,7 +90,7 @@ function SimulatorWidget(node) {
       run: [false, 'Upload'],
       reset: false,
       hexdump: false,
-      disassemble: false,
+      disassemble: true,
       debug: [false, false]
     };
     var assembled = {
@@ -106,7 +106,7 @@ function SimulatorWidget(node) {
       run: [true, 'Stop'],
       reset: true,
       hexdump: false,
-      disassemble: false,
+      disassemble: true,
       debug: [true, false]
     };
     var debugging = {
@@ -1899,7 +1899,7 @@ function SimulatorWidget(node) {
     
     // Assembles the code into memory
     function assembleCode() {
-      origin = parseInt(prompt('Enter the starting address where the program should be loaded, e.g. 0x0200:', '0x0000'));
+      origin = parseInt(prompt('Enter the starting address where the program should be loaded, e.g. 0x0200:', '0x0200'));
       var BOOTSTRAP_ADDRESS = origin;
 
       wasOutOfRangeBranch = false;
@@ -2608,9 +2608,9 @@ function SimulatorWidget(node) {
     }
 
     function disassemble() {
-      var startAddress = origin;
+      var startAddress = parseInt(prompt('Enter the starting address where the program is loaded, e.g. 0x0200:', '0x0200'));
       var currentAddress = startAddress;
-      var endAddress = startAddress + codeLen;
+      var endAddress = parseInt(prompt('Enter the end address where the program ends, e.g. 0x020A:', '0x020A'));
       var instructions = [];
       var length;
       var inst;
@@ -2619,7 +2619,7 @@ function SimulatorWidget(node) {
 
       while (currentAddress < endAddress) {
         inst = createInstruction(currentAddress);
-        byte = memory.get(currentAddress);
+        byte = RAM[currentAddress];
         inst.addByte(byte);
 
         modeAndCode = getModeAndCode(byte);
@@ -2628,7 +2628,7 @@ function SimulatorWidget(node) {
 
         for (var i = 1; i < length; i++) {
           currentAddress++;
-          byte = memory.get(currentAddress);
+          byte = RAM[currentAddress];
           inst.addByte(byte);
           inst.addArg(byte);
         }
