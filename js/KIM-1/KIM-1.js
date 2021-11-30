@@ -1238,10 +1238,10 @@ cpu.write(0x17FF, 0x1C);
 
 // main loop
 function cpuLoop() {
-  var start = Date.now();
+  //var start = Date.now();
   cpu.cycles = 0;
   
-  while (cpu.cycles < 8000) {
+  while (cpu.cycles < 5000) { // changing this value alters the emulator's speed
     // This seems like a hack but it's basically how the hardware does it
     let enable_SST_NMI = single_step && (cpu.PC < 0x1c00);
     cpu.step();
@@ -1253,14 +1253,25 @@ function cpuLoop() {
     }
   }
   
-  let timeSpent = Date.now() - start;
+  /*let timeSpent = Date.now() - start;
   let cyclesPerMs = 1 / (timeSpent / cpu.cycles);
-  let cyclesPerS = Math.round(cyclesPerMs * 1000);
-  let mhz = Math.round(cyclesPerMs / 1000, 2);
-  //if (timeSpent && mhz) stats.innerHTML = 'Running at ' + mhz + ' Mhz (' + cyclesPerS + ' cycles per second)';
+  let cyclesPerS = Math.round(cyclesPerMs * 1000) - 4000000;
+  let mhz = Math.round(cyclesPerMs / 1000, 2) - 4;
+  if (timeSpent && mhz) stats.innerHTML = 'Running at ' + mhz + ' Mhz (' + cyclesPerS + ' cycles per second)';*/
 
   setTimeout(cpuLoop, 0);
 } window.onload = function() { cpuLoop(); }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
