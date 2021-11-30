@@ -35,7 +35,10 @@ function SimulatorWidget(node) {
     });
     $node.find('.runButton').click(function() {
       // load hex dump into KIM-1 memory
-      for (let i = origin; i < origin + codeSize; i++) RAM[i] = memory.get(i);
+      for (let i = origin; i < origin + codeSize; i++) {
+        if (origin < 1700) RAM[i] = memory.get(i);
+        else RIOT[i - 0x1700] = memory.get(i);
+      }
     });
     
     //$node.find('.runButton').click(simulator.stopDebugger);

@@ -1160,8 +1160,6 @@ cpu.read = function(addr) {
 }
 
 cpu.write = function(addr, value) {
-  //if (addr == 0x1746)  console.log('write: ' + addr.toString(16) + ' ' + value.toString(16));
-  
   // KIM-1 6530 RIOT chips
   if (addr >= 0x1700) {
     RIOT[addr - 0x1700] = value;
@@ -1206,6 +1204,9 @@ function driveLED() {
   // extract segment
   let segment = ((RIOT[0x42] - 9) >> 1) & 0x07;
 
+  // return only if data direction is set to read from keypad
+  if (RIOT[0x41] == 0) value = 0xff;
+
   // update LED
   switch(segment) {
     case 0: ssd1.displayDigit(value); return;
@@ -1240,7 +1241,7 @@ function cpuLoop() {
   var start = Date.now();
   cpu.cycles = 0;
   
-  while (cpu.cycles < 1000) {
+  while (cpu.cycles < 8000) {
     // This seems like a hack but it's basically how the hardware does it
     let enable_SST_NMI = single_step && (cpu.PC < 0x1c00);
     cpu.step();
@@ -1256,7 +1257,7 @@ function cpuLoop() {
   let cyclesPerMs = 1 / (timeSpent / cpu.cycles);
   let cyclesPerS = Math.round(cyclesPerMs * 1000);
   let mhz = Math.round(cyclesPerMs / 1000, 2);
-  if (timeSpent && mhz) stats.innerHTML = 'Running at ' + mhz + ' Mhz (' + cyclesPerS + ' cycles per second)';
+  //if (timeSpent && mhz) stats.innerHTML = 'Running at ' + mhz + ' Mhz (' + cyclesPerS + ' cycles per second)';
 
   setTimeout(cpuLoop, 0);
 } window.onload = function() { cpuLoop(); }
