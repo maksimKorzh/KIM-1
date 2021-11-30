@@ -1,3 +1,8 @@
+;
+; Test HELLO program by Dominic Bumbaca
+;          (Upload at $0200)
+;
+
 lda #$ff
 sta $1741 ;set data direction
 lda #$ff
