@@ -1,0 +1,52 @@
+Upload KV to Corsham
+Before running go to address $01EC and send me the hex dump from $01EC to $0200
+HERE YOU GO...
+
+01EC A6                                                                         
+01ED 3F                                                                         
+01EE B5                                                                         
+01EF 01                                                                         
+01F0 95                                                                         
+01F1 00                                                                         
+01F2 E8                                                                         
+01F3 E0                                                                         
+01F4 EF                                                                         
+01F5 D0                                                                         
+01F6 F7                                                                         
+01F7 60                                                                         
+01F8 D0                                                                         
+01F9 1E                                                                         
+01FA 48                                                                         
+01FB 1E                                                                         
+01FC D0                                                                         
+01FD 1E                                                                         
+01FE B4                                                                         
+01FF 1D                                                                         
+0200 38                    
+
+Then run KV on corsham, wait until it displays question mark and rune and press ST button
+And then please send me the hexdump from the same address range $01EC to $0200
+
+
+HERE YOU GO!
+
+01EC A6                                                                         
+01ED 3F                                                                         
+01EE B5                                                                         
+01EF 01                                                                         
+01F0 95                                                                         
+01F1 00                                                                         
+01F2 D0                                                                         
+01F3 1E                                                                         
+01F4 48                                                                         
+01F5 1E                                                                         
+01F6 D0                                                                         
+01F7 1E                                                                         
+01F8 B4                                                                         
+01F9 1D                                                                         
+01FA 12                                                                         
+01FB 00                                                                         
+01FC ED                                                                         
+01FD 02                                                                         
+01FE 54                                                                         
+01FF 01     

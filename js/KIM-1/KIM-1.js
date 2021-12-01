@@ -1065,8 +1065,8 @@ const IRQ = new Uint8Array([
 // ============================================================================
 // ============================================================================
 
-// ======== RAM  0x0000-0x03FF ================================================
-var RAM = new Uint8Array(1024);
+// ======== RAM  0x0000-0x1700 ================================================
+var RAM = new Uint8Array(0x1700);
 
 // ======== RIOT chips memory 0x1700-0x17FF====================================
 var RIOT = new Uint8Array(256);
@@ -1103,6 +1103,10 @@ function stop() {
 
 function reset() {
   cpu.reset();
+}
+
+cpu.kil = function() {
+  console.log('Emulator error');
 }
 
 cpu.read = function(addr) {
@@ -1152,7 +1156,7 @@ cpu.read = function(addr) {
   }
   
   // KIM-1 RAM
-  if (addr <= 0x03FF) return RAM[addr];
+  if (addr < 0x1700) return RAM[addr];
 
   // shouldn't get here  
   console.log('Error read address: 0x' + addr.toString(16));
@@ -1168,7 +1172,7 @@ cpu.write = function(addr, value) {
   }
   
   // KIM-1 RAM
-  if (addr <= 0x03FF) {
+  if (addr < 0x1700) {
     RAM[addr] = value;
     return;
   }
@@ -1183,16 +1187,6 @@ cpu.write = function(addr, value) {
 //   7 SEGMENT DISPLAY
 // ============================================================================
 // ============================================================================
-
-/*
-start:
-lda #$ff
-sta $1740
-lda #$09
-sta $1742
-jmp start
-*/
-
 
 function driveLED() {
   // extract value

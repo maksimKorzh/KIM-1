@@ -39,6 +39,13 @@ function SimulatorWidget(node) {
         if (origin < 1700) RAM[i] = memory.get(i);
         else RIOT[i - 0x1700] = memory.get(i);
       }
+      
+      // reset CPU
+      cpu.reset();
+      
+      // fix stack
+      for (let i = 0x01f8; i <= 0x01fb; i++)
+        RAM[i] = 0;
     });
     
     //$node.find('.runButton').click(simulator.stopDebugger);

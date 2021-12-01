@@ -1,31 +1,48 @@
 ;
-; Prints 'HELLO' on KIM-1 display
+;              HELLO by Aart Bik
+;              (Upload at $0200)
+;    Works on emulator/Corsham KIM/KIM Uno
 ;
 
-define SAD $1740                ; character to print encoded to 7 segment code
-define SBD $1742                ; LED segment to print character to (1-6)
+define sad  $1740  ; A data register
+define padd $1741  ; A data direction register
+define sbd  $1742  ; B data register
+define pbdd $1743  ; B data direction register
 
-START:  LDA #$7F                ; set directional
-        STA $1741               ;    register
-        LDX #$00                ; init character offset
-        LDY #$09                ; init segment offset
+lda #$7f
+sta padd
+lda #$3f
+sta pbdd
 
-PRINT:  STY SBD                 ; set up segment to write character to
-        LDA HELLO,X             ; load next character
-        STA SAD                 ; output character
-        INX                     ; increment character offset
-        INY                     ; increment segment offset
-        INY                     ; increment segment offset
-        CPY #$13                ; no more characters to print?
-        BEQ START               ; if so then print 'HELLO' again
-        JMP PRINT               ; otherwise print next character
 
-HELLO:  DCB $76, $79, $38       ; 'H', 'E', 'L'
-        DCB $38, $BF, $00       ; 'L', 'O', ' ' (last one is not used)
+display_loop:   
+    ldx #0
+    ldy #9
+char_loop:
+    lda #0
+    sta sad; no flicker
+    sty sbd
+    lda DATA, x
+    sta sad
+    txa
+    ldx #4
+char_delay:
+    dex
+    bne char_delay ; glow up character
+    tax
+    inx
+    iny
+    iny
+    cpx #6
+    bne char_loop
+    jmp display_loop ; keep refreshing
+
+DATA: DCB $f6, $f9, $38, $38, $3f, $00
 
 ;
 ; HEXDUMP
 ;
-; 0200: a9 7f 8d 41 17 a2 00 a0 09 8c 42 17 bd 1c 02 8d 
-; 0210: 40 17 e8 c8 c8 c0 13 f0 e7 4c 09 02 76 79 38 38 
-; 0220: bf 00 
+; 0200: a9 7f 8d 41 17 a9 3f 8d 43 17 a2 00 a0 09 a9 00 
+; 0210: 8d 40 17 8c 42 17 bd 2d 02 8d 40 17 8a a2 04 ca 
+; 0220: d0 fd aa e8 c8 c8 e0 06 d0 e4 4c 0a 02 f6 f9 38 
+; 0230: 38 3f 00 
