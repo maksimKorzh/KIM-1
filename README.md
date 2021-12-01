@@ -1,9 +1,8 @@
-# KIM-1
-KIM-1 emulator in JavaScript
+# KIM-1 emulator in JavaScript
 [![IMAGE ALT TEXT HERE](https://raw.githubusercontent.com/maksimKorzh/KIM-1/main/img/KIM-1.jpg)](https://maksimkorzh.github.io/KIM-1/)
 
 # Credits
-Below is the list of software I've bundled together<br>
+Below is the list of the software I've bundled together<br>
 <br>
 6502 CPU emulator:<br>
 https://github.com/Torlus/6502.js<br>
