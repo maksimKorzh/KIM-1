@@ -5,7 +5,6 @@
   <title>Online KIM-1 emulator</title>
   <script src="js/7-segment-display/p5.min.js"></script>
   <script src="js/7-segment-display/p5.dom.min.js"></script>
-  <script src="js/7-segment-display/p5.sound.min.js"></script>
   <link rel="stylesheet" type="text/css" href="">
   <meta charset="utf-8">
 </head>
@@ -123,7 +122,7 @@
         <input type="button" hidden value="Reset" class="resetButton buttons" />
         <input type="button" value="Hexdump" class="hexdumpButton buttons" />
         <input type="button" value="Disassemble" class="disassembleButton buttons" />
-        <input type="button" value="KIM dump" class="notesButton" hidden/>
+        <input type="button" value="Converter" onclick="openConverter();" class="buttons"/>
         <label id="stats"></label>
       </div>
       <textarea class="code" spellcheck="false"></textarea>
@@ -134,6 +133,7 @@
     <script src="js/KIM-1/KIM-1.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="js/ASM/assembler.js"></script>
+    <script src="js/Converter/converter.js"></script>
     
     <script>
       // init display

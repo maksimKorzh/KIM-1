@@ -293,7 +293,7 @@ function SimulatorWidget(node) {
       var n;
 
       for (var x = 0; x < length; x++) {
-        if ((x & 15) === 0) {
+        if ((x % 24) === 0) {
           if (x > 0) { html += "\n"; }
           n = (start + x);
           html += num2hex(((n >> 8) & 0xff));
@@ -2469,7 +2469,7 @@ function SimulatorWidget(node) {
     }
 
     function openPopup(content, title) {
-      var w = window.open('', title, 'width=500,height=300,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no');
+      var w = window.open('', title, 'width=650,height=300,resizable=yes,scrollbars=yes,toolbar=no,location=no,menubar=no,status=no');
 
       var html = "<html><head>";
       html += "<link href='style.css' rel='stylesheet' type='text/css' />";
