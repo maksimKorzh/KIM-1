@@ -1073,6 +1073,72 @@ var RIOT = new Uint8Array(256);
 
 // ============================================================================
 // ============================================================================
+//   6530 RIOT TIMER
+// ============================================================================
+// ============================================================================
+
+// Function to generate random number 
+function randomNumber(min, max) { 
+  return Math.floor(Math.random() * (max - min) + min);
+} 
+
+// --- riotTimerWrite() ---
+function riotTimerWrite(address, setVal)
+{console.log('write timer: ' + address.toString(16) + ' ' + setVal.toString(16));
+    if ((setVal <= 0) || (setVal > 0xFF)) {
+      console.log("riotTimerWrite(): Timer set to zero! Abort");
+      RIOT[0x07] = 0x80; //tim1707 = 0x80;
+      RIOT[0x06] = 0;    //tim1706 = 0;
+      var timerDiv = 1;
+      return;
+    }
+    switch(address) {
+      case 0x1704:
+        timerDiv = 1 ; //1
+        break;
+      case 0x1705:
+        timerDiv = 8; //8
+        break;
+      case 0x1706:
+        timerDiv = 64; //64
+        break;
+      case 0x1707:
+        timerDiv = 1024; // 1024
+        break;
+      default:
+        timerDiv = 1024;
+    }
+    
+    RIOT[0x06] = (setVal * timerDiv) + (Date.now() - startTime);
+    RIOT[0x07] = 0;
+
+} // riotTimerWrite()
+
+// --- riotTimerRead ---
+function riotTimerRead(address)
+{console.log('read timer: ' + address.toString(16));
+    var rVal;
+
+    //Sprint("riotTimerRead(): tim1707[");
+    //Sprint(tim1707); Sprint("]");
+    //if (RIOT[0x07] != 0x80) console.log('time error');//timerCheck();
+
+    switch (address) {
+      case 0x1707:
+        //Sprint(", return tim1707["); Sprint(tim1707); Sprintln("]");
+        return RIOT[0x07];
+        break;
+      default:
+        rVal  = randomNumber(0,0xFF);
+        //rVal |= B10000000;
+        //Sprintln(", return [0]");
+        return rVal;
+    }
+
+} // riotTimerRead()
+
+// ============================================================================
+// ============================================================================
 //   MOS 6502 CPU
 // ============================================================================
 // ============================================================================
@@ -1152,6 +1218,20 @@ cpu.read = function(addr) {
       }
     }
     
+    // timer
+    if ((addr >= 0x1704) && (addr <= 0x1707)) { // timer, thanks to Willem Aandewiel
+      if (single_step == 1) {
+          if (addr == 0x1707)
+            return(0x80);                   // always bailout in SST mode
+          else {
+            value = riotTimerRead(addr);
+            return(value);
+          }
+      } 
+      value = riotTimerRead(addr);       // status timer (AaW)
+      return(value);
+    }
+    
     return RIOT[addr - 0x1700];
   }
   
@@ -1173,6 +1253,12 @@ cpu.write = function(addr, value) {
   
   // KIM-1 RAM
   if (addr < 0x1700) {
+    // timer, thanks to Willem Aandewiel
+    if ((addr >= 0x1704) && (addr <= 0x1707)) {   // set timer
+        riotTimerWrite((addr), value);                   // AaW
+        return;
+    }
+  
     RAM[addr] = value;
     return;
   }
@@ -1218,6 +1304,9 @@ function driveLED() {
 //   MAIN
 // ============================================================================
 // ============================================================================
+
+// needed for timer
+var startTime = Date.now();
 
 // reset CPU
 cpu.reset();
