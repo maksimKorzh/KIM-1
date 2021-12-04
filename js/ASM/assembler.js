@@ -2626,9 +2626,15 @@ function SimulatorWidget(node) {
     }
 
     function disassemble() {
-      var startAddress = parseInt(prompt('Enter the starting address where the program is loaded, e.g. 0x0200:', '0x0200'));
-      var currentAddress = startAddress;
-      var endAddress = parseInt(prompt('Enter the end address where the program ends, e.g. 0x020A:', '0x020A'));
+      var startAddress = origin;
+      var endAddress = origin + codeLen;
+      var currentAddress = startAddress;      
+      
+      if (codeLen == undefined) {      
+        var startAddress = parseInt(prompt('Enter the starting address where the program is loaded, e.g. 0x0200:', '0x0200'));
+        var endAddress = parseInt(prompt('Enter the end address where the program ends, e.g. 0x020A:', '0x020A'));
+      }
+      
       var instructions = [];
       var length;
       var inst;
