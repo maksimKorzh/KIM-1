@@ -99,7 +99,7 @@ function SimulatorWidget(node) {
       assemble: true,
       run: [false, 'Upload'],
       reset: false,
-      hexdump: false,
+      hexdump: true,
       disassemble: true,
       debug: [false, false]
     };
@@ -115,7 +115,7 @@ function SimulatorWidget(node) {
       assemble: false,
       run: [true, 'Stop'],
       reset: true,
-      hexdump: false,
+      hexdump: true,
       disassemble: true,
       debug: [true, false]
     };
@@ -2485,7 +2485,15 @@ function SimulatorWidget(node) {
 
     // Dump binary as hex to new window
     function hexdump() {
-      openPopup(memory.format(origin, codeLen), 'Hexdump');
+      let org = origin;
+      let len = codeLen;
+      
+      if (codeLen == undefined) {
+        org = parseInt(prompt('Enter the starting address where the program is loaded, e.g. 0x0200:', '0x0200'));
+        len = parseInt(prompt('Enter the end address where the program ends, e.g. 0x020A:', '0x020A')) - org;
+      }
+            
+      openPopup(memory.format(org, len), 'Hexdump');
     }
 
     // TODO: Create separate disassembler object?
@@ -2672,7 +2680,7 @@ function SimulatorWidget(node) {
     var str = "0123456789abcdef";
     var hi = ((nr & 0xf0) >> 4);
     var lo = (nr & 15);
-    return str.substring(hi, hi + 1) + str.substring(lo, lo + 1);
+    return (str.substring(hi, hi + 1) + str.substring(lo, lo + 1)).toUpperCase();
   }
 
   // Prints text in the message window

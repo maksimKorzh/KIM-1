@@ -12,30 +12,30 @@
     <!-- Emulator -->
     <div>
       <img src="img/KIM-1.jpg" style="position: absolute; left: 0px; top: 0px;"/>
-      <input type="checkbox" onchange="single_step ^= 1" style="position: absolute; width: 22px; height: 22px; left: 650px; top: 665px; background-color: Transparent; cursor: pointer;"/>
-      <button onmousedown="keypad(0x13);" onmouseup="lightdown(); char_pending = 0x15;" ontouchstart="keypad(0x13);" ontouchend="lightdown(); char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 661px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="stop();"       onmouseup="char_pending = 0x15;" ontouchstart="stop();"      ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 560px; top: 661px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="reset();"      onmouseup="char_pending = 0x15;" ontouchstart="reset();"     ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 605px; top: 661px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="keypad(0x10);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x10)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 706px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="keypad(0x11);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x11)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 560px; top: 706px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="keypad(0x14);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x14)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 605px; top: 706px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="keypad(0x12);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x12)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 650px; top: 706px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="keypad(0x0c);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0c)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 751px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="keypad(0x0d);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0d)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 560px; top: 751px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="keypad(0x0e);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0e)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 605px; top: 751px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="keypad(0x0f);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0f)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 650px; top: 751px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="keypad(0x08);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x08)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 796px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="keypad(0x09);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x09)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 560px; top: 796px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="keypad(0x0a);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0a)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 605px; top: 796px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="keypad(0x0b);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0b)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 650px; top: 796px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="keypad(0x04);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x04)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 841px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="keypad(0x05);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x05)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 560px; top: 841px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="keypad(0x06);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x06)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 605px; top: 841px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="keypad(0x07);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x07)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 650px; top: 841px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="keypad(0x00);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x00)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 886px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="keypad(0x01);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x01)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 560px; top: 886px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="keypad(0x02);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x02)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 605px; top: 886px; background-color: Transparent; cursor: pointer;"></button>
-      <button onmousedown="keypad(0x03);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x03)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 650px; top: 886px; background-color: Transparent; cursor: pointer;"></button>
+      <input  id="SST" type="checkbox" onchange="single_step ^= 1" style="position: absolute; width: 22px; height: 22px; left: 650px; top: 665px; background-color: Transparent; cursor: pointer;"/>
+      <button id="GO" onmousedown="keypad(0x13);" onmouseup="lightdown(); char_pending = 0x15;" ontouchstart="keypad(0x13);" ontouchend="lightdown(); char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 661px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="ST" onmousedown="stop();"       onmouseup="char_pending = 0x15;" ontouchstart="stop();"      ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 560px; top: 661px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="RS" onmousedown="reset();"      onmouseup="char_pending = 0x15;" ontouchstart="reset();"     ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 605px; top: 661px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="AD" onmousedown="keypad(0x10);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x10)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 706px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="DA" onmousedown="keypad(0x11);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x11)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 560px; top: 706px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="PC" onmousedown="keypad(0x14);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x14)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 605px; top: 706px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="+" onmousedown="keypad(0x12);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x12)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 650px; top: 706px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="C" onmousedown="keypad(0x0c);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0c)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 751px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="D" onmousedown="keypad(0x0d);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0d)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 560px; top: 751px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="E" onmousedown="keypad(0x0e);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0e)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 605px; top: 751px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="F" onmousedown="keypad(0x0f);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0f)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 650px; top: 751px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="8" onmousedown="keypad(0x08);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x08)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 796px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="9" onmousedown="keypad(0x09);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x09)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 560px; top: 796px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="A" onmousedown="keypad(0x0a);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0a)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 605px; top: 796px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="B" onmousedown="keypad(0x0b);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0b)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 650px; top: 796px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="4" onmousedown="keypad(0x04);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x04)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 841px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="5" onmousedown="keypad(0x05);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x05)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 560px; top: 841px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="6" onmousedown="keypad(0x06);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x06)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 605px; top: 841px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="7" onmousedown="keypad(0x07);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x07)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 650px; top: 841px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="0" onmousedown="keypad(0x00);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x00)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 886px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="1" onmousedown="keypad(0x01);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x01)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 560px; top: 886px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="2" onmousedown="keypad(0x02);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x02)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 605px; top: 886px; background-color: Transparent; cursor: pointer;"></button>
+      <button id="3" onmousedown="keypad(0x03);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x03)" ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 650px; top: 886px; background-color: Transparent; cursor: pointer;"></button>
     </div>
     
     <!-- Assembler -->
@@ -43,6 +43,15 @@
       <div class="notes">
         <pre>
           <code>
+
+==============================================
+ Keyboard layout
+==============================================
+
+  AD - Ctrl A     ST - Ctrl S     SST on - ]
+  DA - Ctrl D     RS - Ctrl R     SST off- [
+  PC - Ctrl P     GO - Ctrl G
+          
 ==============================================
  Useful ROM Routines
 ==============================================

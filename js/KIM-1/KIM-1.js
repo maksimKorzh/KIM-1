@@ -1301,6 +1301,78 @@ function driveLED() {
 
 // ============================================================================
 // ============================================================================
+//   INPUT DATA FROM KEYBOARD
+// ============================================================================
+// ============================================================================
+
+/*  Keyboard layout:
+
+    AD - Ctrl A     ST - Ctrl S     SST on - ]
+    DA - Ctrl D     RS - Ctrl R     SST off- [
+    PC - Ctrl P     GO - Ctrl G
+*/
+
+document.onkeydown = function(e) {
+  e = e || window.event;
+  var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
+  let pressed = String.fromCharCode(charCode);
+  
+  if (charCode && document.activeElement.tagName != 'TEXTAREA') {
+    if (e.ctrlKey) {
+      e.preventDefault();
+      switch (e.keyCode) {
+        case 65: pressed = 'AD'; break;
+        case 68: pressed = 'DA'; break;
+        case 80: pressed = 'PC'; break;
+        case 83: pressed = 'ST'; break;
+        case 82: pressed = 'RS'; break;
+        case 71: pressed = 'GO'; break;        
+      }
+    } if (e.keyCode == 187) pressed = '+';
+
+    if  (e.keyCode == 221) {
+      document.getElementById('SST').checked = true;
+      return;
+    }
+    
+    if  (e.keyCode == 219) {
+      document.getElementById('SST').checked = false;
+      return;
+    }
+
+    if (document.getElementById(pressed)) {
+      document.getElementById(pressed).style.opacity = '0';
+      document.getElementById(pressed).onmousedown();
+    }
+  }
+};
+
+document.onkeyup = function(e) {
+  e = e || window.event;
+  var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
+  if (charCode && document.activeElement.tagName != 'TEXTAREA') {
+    let pressed = String.fromCharCode(charCode);
+    if (e.ctrlKey) {
+      e.preventDefault();
+      switch (e.keyCode) {
+        case 65: pressed = 'AD'; break;
+        case 68: pressed = 'DA'; break;
+        case 80: pressed = 'PC'; break;
+        case 83: pressed = 'ST'; break;
+        case 82: pressed = 'RS'; break;
+        case 71: pressed = 'GO'; break;
+      }
+    } if (e.keyCode == 187) pressed = '+';
+
+    if (document.getElementById(pressed)) {
+      document.getElementById(pressed).onmouseup();
+      document.getElementById(pressed).style.opacity = '1';
+    }
+  }
+};
+
+// ============================================================================
+// ============================================================================
 //   MAIN
 // ============================================================================
 // ============================================================================
@@ -1335,17 +1407,9 @@ function cpuLoop() {
       stop();
     }
   }
-  
-  /*let timeSpent = Date.now() - start;
-  let cyclesPerMs = 1 / (timeSpent / cpu.cycles);
-  let cyclesPerS = Math.round(cyclesPerMs * 1000) - 4000000;
-  let mhz = Math.round(cyclesPerMs / 1000, 2) - 4;
-  if (timeSpent && mhz) stats.innerHTML = 'Running at ' + mhz + ' Mhz (' + cyclesPerS + ' cycles per second)';*/
 
   setTimeout(cpuLoop, 0);
 } window.onload = function() { cpuLoop(); }
-
-
 
 
 
