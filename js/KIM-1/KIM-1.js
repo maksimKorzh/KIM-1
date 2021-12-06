@@ -1077,65 +1077,60 @@ var RIOT = new Uint8Array(256);
 // ============================================================================
 // ============================================================================
 
-// Function to generate random number 
-function randomNumber(min, max) { 
-  return Math.floor(Math.random() * (max - min) + min);
-} 
-
-// --- riotTimerWrite() ---
-function riotTimerWrite(address, setVal)
-{console.log('write timer: ' + address.toString(16) + ' ' + setVal.toString(16));
-    if ((setVal <= 0) || (setVal > 0xFF)) {
-      console.log("riotTimerWrite(): Timer set to zero! Abort");
-      RIOT[0x07] = 0x80; //tim1707 = 0x80;
-      RIOT[0x06] = 0;    //tim1706 = 0;
-      var timerDiv = 1;
+var Timer = function () {
+  var timer = 0x00;   // wraps around 0xFF - 0x00
+  var count = 0;
+  var status = 0x80;  // count is completed
+  var delay = 0;
+  
+  // used only to feed 1704 address
+  function tick() {
+    timer--;
+    if (timer < 0) timer = 0xff;  // reset timer
+  }
+  
+  // user timeout
+  function countDown(delay) {
+    if (count < 0) {
+      status = 0x80;
+      count = 0;
       return;
-    }
-    switch(address) {
-      case 0x1704:
-        timerDiv = 1 ; //1
-        break;
-      case 0x1705:
-        timerDiv = 8; //8
-        break;
-      case 0x1706:
-        timerDiv = 64; //64
-        break;
-      case 0x1707:
-        timerDiv = 1024; // 1024
-        break;
-      default:
-        timerDiv = 1024;
-    }
+    } 
     
-    RIOT[0x06] = (setVal * timerDiv) + (Date.now() - startTime);
-    RIOT[0x07] = 0;
-
-} // riotTimerWrite()
-
-// --- riotTimerRead ---
-function riotTimerRead(address)
-{console.log('read timer: ' + address.toString(16));
-    var rVal;
-
-    //Sprint("riotTimerRead(): tim1707[");
-    //Sprint(tim1707); Sprint("]");
-    //if (RIOT[0x07] != 0x80) console.log('time error');//timerCheck();
-
-    switch (address) {
-      case 0x1707:
-        //Sprint(", return tim1707["); Sprint(tim1707); Sprintln("]");
-        return RIOT[0x07];
-        break;
-      default:
-        rVal  = randomNumber(0,0xFF);
-        //rVal |= B10000000;
-        //Sprintln(", return [0]");
-        return rVal;
+    status = 0x00;
+    count--;
+    setTimeout(countDown, delay);
+  }
+  
+  return {
+    tick: function() { tick(); },
+    
+    read: function(addr) {
+      switch(addr) {
+        case 0x1704: return timer;      // used as source of random values ('timer' variable)
+        case 0x1705: return 0;          // not used
+        case 0x1706: return count;      // current timer count ('count' variable)
+        case 0x1707: return status;     // timer status
+      }
+    },
+    
+    write: function(addr, value) {
+      count = value;
+      status = 0x00;
+      if (count) {
+        switch(addr) {
+          case 0x1704: countDown(0.255);   // clock divide rate of 1
+          case 0x1705: countDown(2.04);    // clock divide rate of 8
+          case 0x1706: countDown(16.32);   // clock divide rate of 64
+          case 0x1707: countDown(261.12);  // clock divide rate of 1024
+        }
+      }
     }
+  }
+};
 
-} // riotTimerRead()
+var timer = new Timer();
+
 
 // ============================================================================
 // ============================================================================
@@ -1218,18 +1213,12 @@ cpu.read = function(addr) {
       }
     }
     
-    // timer
-    if ((addr >= 0x1704) && (addr <= 0x1707)) { // timer, thanks to Willem Aandewiel
+    // read timers
+    if ((addr >= 0x1704) && (addr <= 0x1707)) {
       if (single_step == 1) {
-          if (addr == 0x1707)
-            return(0x80);                   // always bailout in SST mode
-          else {
-            value = riotTimerRead(addr);
-            return(value);
-          }
-      } 
-      value = riotTimerRead(addr);       // status timer (AaW)
-      return(value);
+          if (addr == 0x1707) return(0x80);  // always bailout in SST mode
+          else return timer.read(addr);
+      } return timer.read(addr);
     }
     
     return RIOT[addr - 0x1700];
@@ -1246,19 +1235,18 @@ cpu.read = function(addr) {
 cpu.write = function(addr, value) {
   // KIM-1 6530 RIOT chips
   if (addr >= 0x1700) {
+    if ((addr >= 0x1704) && (addr <= 0x1707)) {   // set timer
+        timer.write(addr, value);
+        return;
+    }
+    
     RIOT[addr - 0x1700] = value;
     if (addr == 0x1740) driveLED();
     return;
   }
   
   // KIM-1 RAM
-  if (addr < 0x1700) {
-    // timer, thanks to Willem Aandewiel
-    if ((addr >= 0x1704) && (addr <= 0x1707)) {   // set timer
-        riotTimerWrite((addr), value);                   // AaW
-        return;
-    }
-  
+  if (addr < 0x1700) {  
     RAM[addr] = value;
     return;
   }
@@ -1406,6 +1394,9 @@ function cpuLoop() {
       cpu.PC++;
       stop();
     }
+    
+    // drive timer
+    timer.tick();
   }
 
   setTimeout(cpuLoop, 0);
