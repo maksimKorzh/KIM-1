@@ -1125,7 +1125,7 @@ var Timer = function () {
     
     write: function(addr, value) {
       status = 0x00;
-      let scale = 3; // you might want to change this for accurate timing on your machine
+      let scale = parseInt(document.getElementById('timeScale').value);
       if (value) {
         switch(addr) {
           case 0x1704: count = (value * 1) * scale; break;      // clock divide rate of 1      (0.255)
