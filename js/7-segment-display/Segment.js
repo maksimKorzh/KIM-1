@@ -37,15 +37,9 @@ class Segment
 
 	/* Displays the segment, passed shape */
   show(fullShape) {
-	stroke(this.state ? this._onColor : this._offColor);
-	strokeWeight(this._width);
-	switch(fullShape)
-		{
-		case 1 : line(0, 0, this._length, 0); break; //Full length segment
-		case 2 : line(0, 0, (this._length-this._width)/2, 0); break; //half length
-		case 3 : line(0, 0, (this._length-this._width-10), 0);break; //Diag
-		case 4 : /*line(0, 0, this._width/2, 0);*/ break; //Decimal point 
-		}
+	  stroke(this.state ? this._onColor : this._offColor);
+	  strokeWeight(this._width);
+	  if (fullShape == 1) line(0, 0, this._length, 0);
   }
   
 	/*  Sets the segment on */

@@ -1077,20 +1077,7 @@ var RIOT = new Uint8Array(256);
 // ============================================================================
 // ============================================================================
 
-async function sleep(ms) {
-  var start = Date.now(),
-  now = start;
-  while (now - start < ms) {
-    now = Date.now();
-  }
-}
-
-function later(delay) {
-  return new Promise(function(resolve) {
-    setTimeout(resolve, delay);
-  });
-}
-
+// 6530 RIOT interval timer
 var Timer = function () {
   var timer = 0x00;   // wraps around 0xFF - 0x00
   var count = 0;
@@ -1102,6 +1089,7 @@ var Timer = function () {
     if (timer < 0) timer = 0xff;  // reset timer
   }
 
+  // async count down for user programs
   function countDown() {
     if (count < 0) {
       status = 0x80;
@@ -1111,9 +1099,12 @@ var Timer = function () {
     Promise.resolve(1).then(countDown);
   }
   
+  // public API
   return {
+    // fires every clock cycle
     tick: function() { tick(); },
     
+    // read timer
     read: function(addr) {
       switch(addr) {
         case 0x1704: return timer;      // used as source of random values ('timer' variable)
@@ -1123,6 +1114,7 @@ var Timer = function () {
       }
     },
     
+    // write timer
     write: function(addr, value) {
       status = 0x00;
       let scale = parseInt(document.getElementById('timeScale').value);
@@ -1138,6 +1130,7 @@ var Timer = function () {
   }
 };
 
+// create timer instance
 var timer = new Timer();
 
 // ============================================================================
@@ -1146,11 +1139,16 @@ var timer = new Timer();
 // ============================================================================
 // ============================================================================
 
+// create CPU instance
 var cpu = new CPU6502.CPU6502();
+
+// SST mode
 var single_step = 0;
 
 // KIM-1 key codes
 var key_bits = [0xbf, 0xdf, 0xef, 0xf7, 0xfb, 0xfd, 0xfe];
+
+// Keypad input buffer
 var char_pending = 0x15;  // no key
 
 // trigger NMI
@@ -1170,14 +1168,17 @@ function stop() {
   cpu.cycles++;
 }
 
+// reset CPU
 function reset() {
   cpu.reset();
 }
 
+// error reading opcode
 cpu.kil = function() {
   console.log('Emulator error');
 }
 
+// read memory
 cpu.read = function(addr) {
   // IRQ addresses
   if (addr >= 0xFFFA) return IRQ[addr - 0xFFFA];
@@ -1240,6 +1241,7 @@ cpu.read = function(addr) {
   return 0;
 }
 
+// write memory
 cpu.write = function(addr, value) {
   // KIM-1 6530 RIOT chips
   if (addr >= 0x1700) {
@@ -1270,6 +1272,7 @@ cpu.write = function(addr, value) {
 // ============================================================================
 // ============================================================================
 
+// update display
 function driveLED() {
   // extract value
   let value = RIOT[0x40];
@@ -1308,6 +1311,7 @@ function driveLED() {
     PC - Ctrl P     GO - Ctrl G
 */
 
+// keboard key pressed
 document.onkeydown = function(e) {
   e = e || window.event;
   var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
@@ -1343,6 +1347,7 @@ document.onkeydown = function(e) {
   }
 };
 
+// keyboard key released
 document.onkeyup = function(e) {
   e = e || window.event;
   var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
@@ -1379,8 +1384,6 @@ var startTime = Date.now();
 // reset CPU
 cpu.reset();
 
-var stats = document.getElementById('stats');
-
 // set KIM-1 'vector' locations
 cpu.write(0x17FA, 0x00);
 cpu.write(0x17FB, 0x1C);
@@ -1406,7 +1409,8 @@ function cpuLoop() {
     // drive timer
     timer.tick();
   }
-
+  
+  // loop forever
   setTimeout(cpuLoop, 0);
 } window.onload = function() { cpuLoop(); }
 
