@@ -1077,29 +1077,38 @@ var RIOT = new Uint8Array(256);
 // ============================================================================
 // ============================================================================
 
+async function sleep(ms) {
+  var start = Date.now(),
+  now = start;
+  while (now - start < ms) {
+    now = Date.now();
+  }
+}
+
+function later(delay) {
+  return new Promise(function(resolve) {
+    setTimeout(resolve, delay);
+  });
+}
+
 var Timer = function () {
   var timer = 0x00;   // wraps around 0xFF - 0x00
   var count = 0;
   var status = 0x80;  // count is completed
-  var delay = 0;
   
   // used only to feed 1704 address
   function tick() {
     timer--;
     if (timer < 0) timer = 0xff;  // reset timer
   }
-  
-  // user timeout
-  function countDown(delay) {
+
+  function countDown() {
     if (count < 0) {
       status = 0x80;
       count = 0;
       return;
-    } 
-    
-    status = 0x00;
-    count--;
-    setTimeout(countDown, delay);
+    } count--;
+    Promise.resolve(1).then(countDown);
   }
   
   return {
@@ -1115,22 +1124,21 @@ var Timer = function () {
     },
     
     write: function(addr, value) {
-      count = value;
       status = 0x00;
-      if (count) {
+      let scale = 3; // you might want to change this for accurate timing on your machine
+      if (value) {
         switch(addr) {
-          case 0x1704: countDown(0.255);   // clock divide rate of 1
-          case 0x1705: countDown(2.04);    // clock divide rate of 8
-          case 0x1706: countDown(16.32);   // clock divide rate of 64
-          case 0x1707: countDown(261.12);  // clock divide rate of 1024
-        }
+          case 0x1704: count = (value * 1) * scale; break;      // clock divide rate of 1      (0.255)
+          case 0x1705: count = (value * 8) * scale; break;      // clock divide rate of 8      (2.04)
+          case 0x1706: count = (value * 64) * scale; break;     // clock divide rate of 64     (16.32)
+          case 0x1707: count = (value * 1024) * scale; break;   // clock divide rate of 1024   (261.12)
+        } countDown();
       }
     }
   }
 };
 
 var timer = new Timer();
-
 
 // ============================================================================
 // ============================================================================
