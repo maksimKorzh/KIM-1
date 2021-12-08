@@ -1328,7 +1328,7 @@ document.onkeydown = function(e) {
         case 82: pressed = 'RS'; break;
         case 71: pressed = 'GO'; break;        
       }
-    } if (e.keyCode == 187) pressed = '+';
+    } if (e.keyCode == 187 || e.keyCode == 61) pressed = '+';
 
     if  (e.keyCode == 221) {
       document.getElementById('SST').checked = true;
@@ -1363,7 +1363,7 @@ document.onkeyup = function(e) {
         case 82: pressed = 'RS'; break;
         case 71: pressed = 'GO'; break;
       }
-    } if (e.keyCode == 187) pressed = '+';
+    } if (e.keyCode == 187 || e.keyCode == 61) pressed = '+';
 
     if (document.getElementById(pressed)) {
       document.getElementById(pressed).onmouseup();
