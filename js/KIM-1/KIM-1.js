@@ -1317,6 +1317,21 @@ document.onkeydown = function(e) {
   var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
   let pressed = String.fromCharCode(charCode);
   
+  // numpad shortcuts
+  switch(e.keyCode) {
+    case 96: pressed = '0'; break;
+    case 97: pressed = '1'; break;
+    case 98: pressed = '2'; break;
+    case 99: pressed = '3'; break;
+    case 100: pressed = '4'; break;
+    case 101: pressed = '5'; break;
+    case 102: pressed = '6'; break;
+    case 103: pressed = '7'; break;
+    case 104: pressed = '8'; break;
+    case 105: pressed = '9'; break;
+    case 107: pressed = '+'; break;
+  }
+  
   if (charCode && document.activeElement.tagName != 'TEXTAREA') {
     if (e.ctrlKey) {
       e.preventDefault();
@@ -1326,7 +1341,7 @@ document.onkeydown = function(e) {
         case 80: pressed = 'PC'; break;
         case 83: pressed = 'ST'; break;
         case 82: pressed = 'RS'; break;
-        case 71: pressed = 'GO'; break;        
+        case 71: pressed = 'GO'; break;         
       }
     } if (e.keyCode == 187 || e.keyCode == 61) pressed = '+';
 
@@ -1353,6 +1368,22 @@ document.onkeyup = function(e) {
   var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
   if (charCode && document.activeElement.tagName != 'TEXTAREA') {
     let pressed = String.fromCharCode(charCode);
+    
+    // numpad shortcuts
+    switch(e.keyCode) {
+      case 96: pressed = '0'; break;
+      case 97: pressed = '1'; break;
+      case 98: pressed = '2'; break;
+      case 99: pressed = '3'; break;
+      case 100: pressed = '4'; break;
+      case 101: pressed = '5'; break;
+      case 102: pressed = '6'; break;
+      case 103: pressed = '7'; break;
+      case 104: pressed = '8'; break;
+      case 105: pressed = '9'; break;
+      case 107: pressed = '+'; break;
+    }
+    
     if (e.ctrlKey) {
       e.preventDefault();
       switch (e.keyCode) {
