@@ -1278,7 +1278,8 @@ function driveLED() {
   let value = RIOT[0x40];
 
   // hack to avoid display flickering
-  if (!value && cpu.PC > 0x1800) RIOT[0x42] += 2;
+  if (document.getElementById('toggleDisplayMode').checked == false)
+    if (!value && cpu.PC > 0x1800) RIOT[0x42] += 2;
 
   // extract segment
   let segment = ((RIOT[0x42] - 9) >> 1) & 0x07;

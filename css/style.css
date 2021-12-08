@@ -6,7 +6,7 @@
 }
 
 .buttons {
-  width: 89.3px;
+  width: 86px;
 }
 
 .start, .length {
@@ -57,7 +57,7 @@
 .monitorControls {
   width: 100%;
   clear: both;
-  margin-top: 10px;
+  margin-top: 6px;
   margin-bottom: 10px;
   padding: 0;
 }
