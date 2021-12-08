@@ -10,8 +10,8 @@ function openConverter() {
   html +=       '<button onclick="hex2ptf();" style="width: 499px; margin: 5px; font-family: monospace;">HEX dump to paper tape</button>';
   html +=     '</div>';
   html +=     '<div>';
-  html +=       '<textarea id="sourceFormat" spellcheck="false" placeholder="Paste source format here..." rows="30" cols="60" style="margin: 5px"></textarea>';
-  html +=       '<textarea id="targetFormat" spellcheck="false" placeholder="Get target format from here..." rows="30" cols="60" style="margin: 5px"></textarea>';
+  html +=       '<textarea id="sourceFormat" spellcheck="false" placeholder="Paste source format here..." rows="30" style="width: 499px; margin: 5px"></textarea>';
+  html +=       '<textarea id="targetFormat" spellcheck="false" placeholder="Get target format from here..." rows="30" style="width: 499px; margin: 5px"></textarea>';
   html +=     '</div>';
   html +=   '<script src="js/Converter/converter.js"></script>';
   html +=   '</body>';
