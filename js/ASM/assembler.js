@@ -291,16 +291,18 @@ function SimulatorWidget(node) {
     function format(start, length) {
       var html = '';
       var n;
+      var cols = parseInt(prompt('How many columns to display?', '24'));
 
       for (var x = 0; x < length; x++) {
-        if ((x % 24) === 0) {
+        if ((x % cols) === 0) {
           if (x > 0) { html += "\n"; }
           n = (start + x);
           html += num2hex(((n >> 8) & 0xff));
           html += num2hex((n & 0xff));
           html += ": ";
         }
-        html += num2hex(memory.get(start + x));
+
+        html += num2hex(RAM[start + x]);
         html += " ";
       }
       return html;
@@ -2485,14 +2487,8 @@ function SimulatorWidget(node) {
 
     // Dump binary as hex to new window
     function hexdump() {
-      let org = origin;
-      let len = codeLen;
-      
-      if (codeLen == undefined) {
-        org = parseInt(prompt('Enter the starting address where the program is loaded, e.g. 0x0200:', '0x0200'));
-        len = parseInt(prompt('Enter the end address where the program ends, e.g. 0x020A:', '0x020A')) - org;
-      }
-            
+      var org = parseInt(prompt('Enter the starting address where the program is loaded, e.g. 0x0200:', '0x0200'));
+      var len = parseInt(prompt('Enter the end address where the program ends, e.g. 0x020A:', '0x0300')) - org;            
       openPopup(memory.format(org, len), 'Hexdump');
     }
 
@@ -2626,15 +2622,9 @@ function SimulatorWidget(node) {
     }
 
     function disassemble() {
-      var startAddress = origin;
-      var endAddress = origin + codeLen;
+      var startAddress = parseInt(prompt('Enter the starting address where the program is loaded, e.g. 0x0200:', '0x0200'));
+      var endAddress = parseInt(prompt('Enter the end address where the program ends, e.g. 0x020A:', '0x020A'));
       var currentAddress = startAddress;      
-      
-      if (codeLen == undefined) {      
-        var startAddress = parseInt(prompt('Enter the starting address where the program is loaded, e.g. 0x0200:', '0x0200'));
-        var endAddress = parseInt(prompt('Enter the end address where the program ends, e.g. 0x020A:', '0x020A'));
-      }
-      
       var instructions = [];
       var length;
       var inst;
