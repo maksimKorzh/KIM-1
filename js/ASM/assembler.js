@@ -2623,7 +2623,7 @@ function SimulatorWidget(node) {
 
     function disassemble() {
       var startAddress = parseInt(prompt('Enter the starting address where the program is loaded, e.g. 0x0200:', '0x0200'));
-      var endAddress = parseInt(prompt('Enter the end address where the program ends, e.g. 0x020A:', '0x020A'));
+      var endAddress = parseInt(prompt('Enter the end address where the program ends, e.g. 0x020A:', '0x0400'));
       var currentAddress = startAddress;      
       var instructions = [];
       var length;
