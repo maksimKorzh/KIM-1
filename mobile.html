@@ -12,7 +12,7 @@
 </head>
   <body>
     <!-- Emulator -->
-    <div style="background-color: #222222">
+    <div style="background-color: #222222; width: 100%; height: 1000%;">
       <div id='display' class="m-1 pt-3 pb-0"></div>
       <div class="row m-1 mt-2">
         <div class="col m-0 p-0 mr-1"><button id="GO" style="font-size: 400%;" class="col btn btn-dark" onmousedown="keypad(0x13);" onmouseup="lightdown(); char_pending = 0x15;" ontouchstart="keypad(0x13);" ontouchend="lightdown(); char_pending = 0x15;">GO</button></div>
@@ -27,7 +27,7 @@
         <div class="col m-0 p-0"><button id="+" style="font-size: 400%;" class="col btn btn-dark" onmousedown="keypad(0x12);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x12)" ontouchend="char_pending = 0x15;">+</button></div>
       </div>
       <div class="row m-1">
-        <div class="col m-0 p-0 mr-1"><button id="C" style="font-size: 400%;" class="col btn btn-dark" onmousedown="keypad(0x0c);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0c)" ontouchend="char_pending = 0x15;">C</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="C" style="font-size: 400%;" class="col btn btn-dark" onmousedown="keypad(0x0c);" ontouchstart="keypad(0x0c)" ontouchend="char_pending = 0x15;">C</button></div>
         <div class="col m-0 p-0 mr-1"><button id="D" style="font-size: 400%;" class="col btn btn-dark" onmousedown="keypad(0x0d);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0d)" ontouchend="char_pending = 0x15;">D</button></div>
         <div class="col m-0 p-0 mr-1"><button id="E" style="font-size: 400%;" class="col btn btn-dark" onmousedown="keypad(0x0e);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0e)" ontouchend="char_pending = 0x15;">E</button></div>
         <div class="col m-0 p-0"><button id="F" style="font-size: 400%;" class="col btn btn-dark" onmousedown="keypad(0x0f);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0f)" ontouchend="char_pending = 0x15;">F</button></div>
