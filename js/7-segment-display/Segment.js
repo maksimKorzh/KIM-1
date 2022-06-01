@@ -10,7 +10,7 @@ class Segment
     this._offColor = color(125, 0, 0);
     this._onColor = color(255, 0, 0);
     this._length = 0;
-    this._width = 4;
+    this._width = SEGMENT_THICK;
     this.state = false;
   }
   

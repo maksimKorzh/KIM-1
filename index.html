@@ -168,9 +168,19 @@
     <script src="js/Converter/converter.js"></script>
     
     <script>
+      // display size
+      DISPLAY_WIDTH = 235;
+      DISPLAY_HEIGHT = 64;
+      DISPLAY_TRANSFORM_WIDTH = 2.5;
+      DISPLAY_TRANSFORM_HEIGHT = 2.66;
+      SEGMENT_WIDTH = 5;
+      SEGMENT_HEIGHT = 12;
+      SEGMENT_THICK = 4;
+      SEGMENT_OFFSET = 10.4;
+      
       // init display
       function setup() {
-        let cnv = createCanvas(235, 64);
+        let cnv = createCanvas(DISPLAY_WIDTH, DISPLAY_HEIGHT);
         cnv.position(473, 516);
         frameRate(60);
         ssd1 = new SegmentDisplay("7"); ssd1.update();

@@ -12,11 +12,11 @@ class SegmentDisplay {
   
   constructor(type) {
 	// Default config
-	this._offsetVector = createVector(10.4, 10);
+	this._offsetVector = createVector(SEGMENT_OFFSET, 10);
 	this._offColor = color(255, 0, 0, 80);
 	this._onColor = color(255, 0, 0);
-	this._segmentLength = 12;
-	this._segmentWidth = 5;
+	this._segmentLength = SEGMENT_HEIGHT;
+	this._segmentWidth = SEGMENT_WIDTH;
 	// Load segment objects
 	this.segmentsType = type;
 	this.segmentCode = 0;
@@ -138,7 +138,7 @@ class SegmentDisplay {
 	  function() {_this.leftTransform()}, //G
 	  function() {
 		  //rotate(HALF_PI); //Decimal point
-		  translate(_this._segmentLength*2.5, -(_this._segmentLength*2.66));
+		  translate(_this._segmentLength*DISPLAY_TRANSFORM_WIDTH, -(_this._segmentLength*DISPLAY_TRANSFORM_HEIGHT));
 		  },
 	];
   }
