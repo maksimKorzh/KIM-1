@@ -12,39 +12,39 @@
 </head>
   <body>
     <!-- Emulator -->
-    <div style="background-color: #222222; height: 100vh;">
+    <div style="background-color: #222222; height: 100%;">
       <div id='display' class="m-1 pt-3 pb-0"></div>
-      <div class="row m-1 mt-2" style="height: 300px;">
+      <div class="row m-1 mt-2" style="height: 100%;">
         <div class="col m-0 p-0 mr-1"><button id="GO" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="keypad(0x13);" onmouseup="lightdown(); char_pending = 0x15;" ontouchstart="keypad(0x13);" ontouchend="lightdown(); char_pending = 0x15;">GO</button></div>
         <div class="col m-0 p-0 mr-1"><button id="ST" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="stop();"       onmouseup="char_pending = 0x15;" ontouchstart="stop();"      ontouchend="char_pending = 0x15;">ST</button></div>
         <div class="col m-0 p-0 mr-1"><button id="RS" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="reset();"      onmouseup="char_pending = 0x15;" ontouchstart="reset();"     ontouchend="char_pending = 0x15;">RS</button></div>
         <div class="col m-0 p-0"><input  id="SST" class="mt-0" style="width: 100%; height: 100%;" type="checkbox" onchange="single_step ^= 1"/></div>
       </div>
-      <div class="row m-1" style="height: 300px;">
+      <div class="row m-1" style="height: 100%;">
         <div class="col m-0 p-0 mr-1"><button id="AD" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="keypad(0x10);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x10)" ontouchend="char_pending = 0x15;">AD</button></div>
         <div class="col m-0 p-0 mr-1"><button id="DA" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="keypad(0x11);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x11)" ontouchend="char_pending = 0x15;">DA</button></div>
         <div class="col m-0 p-0 mr-1"><button id="PC" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="keypad(0x14);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x14)" ontouchend="char_pending = 0x15;">PC</button></div>
         <div class="col m-0 p-0"><button id="+" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="keypad(0x12);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x12)" ontouchend="char_pending = 0x15;">+</button></div>
       </div>
-      <div class="row m-1" style="height: 300px;">
+      <div class="row m-1" style="height: 100%;">
         <div class="col m-0 p-0 mr-1"><button id="C" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="keypad(0x0c);" ontouchstart="keypad(0x0c)" ontouchend="char_pending = 0x15;">C</button></div>
         <div class="col m-0 p-0 mr-1"><button id="D" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="keypad(0x0d);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0d)" ontouchend="char_pending = 0x15;">D</button></div>
         <div class="col m-0 p-0 mr-1"><button id="E" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="keypad(0x0e);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0e)" ontouchend="char_pending = 0x15;">E</button></div>
         <div class="col m-0 p-0"><button id="F" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="keypad(0x0f);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0f)" ontouchend="char_pending = 0x15;">F</button></div>
       </div>
-      <div class="row m-1" style="height: 300px;">
+      <div class="row m-1" style="height: 100%;">
         <div class="col m-0 p-0 mr-1"><button id="8" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="keypad(0x08);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x08)" ontouchend="char_pending = 0x15;">8</button></div>
         <div class="col m-0 p-0 mr-1"><button id="9" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="keypad(0x09);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x09)" ontouchend="char_pending = 0x15;">9</button></div>
         <div class="col m-0 p-0 mr-1"><button id="A" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="keypad(0x0a);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0a)" ontouchend="char_pending = 0x15;">A</button></div>
         <div class="col m-0 p-0"><button id="B" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="keypad(0x0b);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x0b)" ontouchend="char_pending = 0x15;">B</button></div>
       </div>
-      <div class="row m-1" style="height: 300px;">
+      <div class="row m-1" style="height: 100%;">
         <div class="col m-0 p-0 mr-1"><button id="4" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="keypad(0x04);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x04)" ontouchend="char_pending = 0x15;">4</button></div>
         <div class="col m-0 p-0 mr-1"><button id="5" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="keypad(0x05);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x05)" ontouchend="char_pending = 0x15;">5</button></div>
         <div class="col m-0 p-0 mr-1"><button id="6" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="keypad(0x06);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x06)" ontouchend="char_pending = 0x15;">6</button></div>
         <div class="col m-0 p-0"><button id="7" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="keypad(0x07);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x07)" ontouchend="char_pending = 0x15;">7</button></div>
       </div>
-      <div class="row m-1" style="height: 300px;">
+      <div class="row m-1" style="height: 100%;">
         <div class="col m-0 p-0 mr-1"><button id="0" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="keypad(0x00);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x00)" ontouchend="char_pending = 0x15;">0</button></div>
         <div class="col m-0 p-0 mr-1"><button id="1" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="keypad(0x01);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x01)" ontouchend="char_pending = 0x15;">1</button></div>
         <div class="col m-0 p-0 mr-1"><button id="2" style="font-size: 400%; height: 100%;" class="col btn btn-dark" onmousedown="keypad(0x02);" onmouseup="char_pending = 0x15;" ontouchstart="keypad(0x02)" ontouchend="char_pending = 0x15;">2</button></div>
