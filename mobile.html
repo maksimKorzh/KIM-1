@@ -21,7 +21,7 @@
     <div style="background-color: #222222;">
       <div id='display' class="m-1 pt-3 pb-0"></div>
       <div class="row m-1 mt-2" style="height: 100%;">
-        <div class="col m-0 p-0 mr-1"><button id="GO" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x13);" ontouchend="lightdown(); char_pending = 0x15;">GO</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="GO" style="font-size: 100%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x13);" ontouchend="lightdown(); char_pending = 0x15;">GO</button></div>
         <div class="col m-0 p-0 mr-1"><button id="ST" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="stop();"      ontouchend="char_pending = 0x15;">ST</button></div>
         <div class="col m-0 p-0 mr-1"><button id="RS" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="reset();"     ontouchend="char_pending = 0x15;">RS</button></div>
         <div class="col m-0 p-0"><input  id="SST" class="mt-0" style="width: 100%; height: 100%;" type="checkbox" onchange="single_step ^= 1"/></div>
@@ -69,20 +69,21 @@
     <script src="js/Converter/converter.js"></script>
     
     <script>
-      // adjust buttons height
-      var height = $(window).height();
-      var btnHeight = (height / 6) - 19;
-      $('.btn').height(btnHeight);
-    
       // display size
       DISPLAY_WIDTH = window.innerWidth - 8;
-      DISPLAY_HEIGHT = 120;
-      DISPLAY_TRANSFORM_WIDTH = window.innerWidth / 160;
-      DISPLAY_TRANSFORM_HEIGHT = 3;
-      SEGMENT_WIDTH = 15;
-      SEGMENT_HEIGHT = 20;
-      SEGMENT_THICK = 6;
-      SEGMENT_OFFSET = 22;
+      DISPLAY_HEIGHT = 235;
+      DISPLAY_TRANSFORM_WIDTH = window.innerWidth / 400;
+      DISPLAY_TRANSFORM_HEIGHT = 1.84;
+      SEGMENT_WIDTH = 20;
+      SEGMENT_HEIGHT = 60;
+      SEGMENT_THICK = 10;
+      SEGMENT_OFFSET = 30;
+      
+      // adjust buttons height
+      var height = $(window).height();
+      var btnHeight = ((height - 188) / 6);
+      $('.btn').height(btnHeight);
+      $('.btn').css({ 'font-size': btnHeight / 2 });;
       
       // init display
       function setup() {
