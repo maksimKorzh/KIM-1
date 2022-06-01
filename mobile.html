@@ -10,15 +10,15 @@
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
-  <body style="background-color: #222222;">
+  <body>
     <style>
-      .btn-dark:hover, .btn-dark:focus {
+      .btn-dark:focus {
         background-color: #343a40 !important;
         box-shadow: none;
       }
     </style>
     <!-- Emulator -->
-    <div style="height: 500px;">
+    <div style="background-color: #222222;">
       <div id='display' class="m-1 pt-3 pb-0"></div>
       <div class="row m-1 mt-2" style="height: 100%;">
         <div class="col m-0 p-0 mr-1"><button id="GO" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x13);" ontouchend="lightdown(); char_pending = 0x15;">GO</button></div>
@@ -69,6 +69,11 @@
     <script src="js/Converter/converter.js"></script>
     
     <script>
+      // adjust buttons height
+      var height = $(window).height();
+      var btnHeight = (height / 6) - 19;
+      $('.btn').height(btnHeight);
+    
       // display size
       DISPLAY_WIDTH = window.innerWidth - 8;
       DISPLAY_HEIGHT = 120;
