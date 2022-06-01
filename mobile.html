@@ -24,7 +24,7 @@
         <div class="col m-0 p-0 mr-1"><button id="GO" style="font-size: 100%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x13);" ontouchend="lightdown(); char_pending = 0x15;">GO</button></div>
         <div class="col m-0 p-0 mr-1"><button id="ST" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="stop();"      ontouchend="char_pending = 0x15;">ST</button></div>
         <div class="col m-0 p-0 mr-1"><button id="RS" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="reset();"     ontouchend="char_pending = 0x15;">RS</button></div>
-        <div class="col m-0 p-0" style="background-color: white;"><input id="SST" class="m-0" style="-webkit-appearance: none; width: 100%; height: 100%;" type="checkbox" onchange="single_step ^= 1"/></div>
+        <div class="col m-0 p-0" style="background-color: white;"><input id="SST" class="m-0" style="width: 100%; height: 100%;" type="checkbox" onchange="single_step ^= 1"/></div>
       </div>
       <div class="row m-1" style="height: 100%;">
         <div class="col m-0 p-0 mr-1"><button id="AD" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x10)" ontouchend="char_pending = 0x15;">AD</button></div>
