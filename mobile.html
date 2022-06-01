@@ -12,10 +12,10 @@
 </head>
   <body>
     <!-- Emulator -->
-    <div style="background-color: #222222; height: 100%;">
+    <div style="background-color: #222222; height: 100%; pointer-events: none;">
       <div id='display' class="m-1 pt-3 pb-0"></div>
       <div class="row m-1 mt-2" style="height: 100%;">
-        <div class="col m-0 p-0 mr-1"><button id="GO" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x13);" ontouchend="lightdown(); char_pending = 0x15; this.style.background-color='#0F0'">GO</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="GO" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x13);" ontouchend="lightdown(); char_pending = 0x15;">GO</button></div>
         <div class="col m-0 p-0 mr-1"><button id="ST" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="stop();"      ontouchend="char_pending = 0x15;">ST</button></div>
         <div class="col m-0 p-0 mr-1"><button id="RS" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="reset();"     ontouchend="char_pending = 0x15;">RS</button></div>
         <div class="col m-0 p-0"><input  id="SST" class="mt-0" style="width: 100%; height: 100%;" type="checkbox" onchange="single_step ^= 1"/></div>
