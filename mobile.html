@@ -93,6 +93,15 @@
       function touchstart(e) { e.preventDefault(); }
       function touchmove(e) { e.preventDefault(); }
       
+      // vibrate on button clicks
+      $(".button").on(isMobile ? 'touchstart' : 'mousedown', function(e) {
+        navigator.vibrate(Infinity); // Infinity is a number
+      });
+
+      $(".button").on(isMobile ? 'touchend' : 'mouseup', function(e) {
+        navigator.vibrate(0);
+      });
+      
       // init display
       function setup() {
         let cnv = createCanvas(DISPLAY_WIDTH, DISPLAY_HEIGHT);
