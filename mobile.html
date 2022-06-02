@@ -104,16 +104,17 @@
       function touchmove(e) { e.preventDefault(); }
       
       // load sound click
-      var clickSound = new Audio('sounds/click.ogg');
+      var pushSound = new Audio('sounds/push.wav');
+      var pullSound = new Audio('sounds/pull.wav');
       
       // vibrate on button clicks
       $(":button").on('touchstart', function(e) {
-        setTimeout(function() {clickSound.play()}, 400);
-        setTimeout(function() {navigator.vibrate(100)}, 500);
+        pushSound.play();
       });
       
       $(":button").on('touchend', function(e) {
-        clickSound.pause();
+        pullSound.play();
+        navigator.vibrate(100);
       });
       
       // init display
