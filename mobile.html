@@ -98,8 +98,8 @@
       
       // vibrate on button clicks
       $(":button").on('touchstart', function(e) {
-        navigator.vibrate(300);
         clickSound.play();
+        navigator.vibrate(150);
       });
       
       // init display
