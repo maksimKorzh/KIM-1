@@ -6,7 +6,7 @@
   <script src="js/7-segment-display/p5.min.js"></script>
   <script src="js/7-segment-display/p5.dom.min.js"></script>
   <meta name="viewport" content="user-scalable=0">
-  <!-- width=device-width, initial-scale=1, maximum-scale=1,  -->
+
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
@@ -69,8 +69,12 @@
     <script src="js/ASM/jquery.min.js"></script>
     <script src="js/ASM/assembler.js"></script>
     <script src="js/Converter/converter.js"></script>
-    
+    <script src="js/fastclick/fastclick.js"></script>
+          
     <script>
+      // fast click
+      $(function() { FastClick.attach(document.body); });
+      
       // display size
       DISPLAY_WIDTH = window.innerWidth - 8;
       DISPLAY_HEIGHT = 235;
@@ -99,14 +103,14 @@
       var touchDuration = 0;
       
       // push button
-      $(":button").on('touchstart', function(e) {
+      $(":button").on('mousedown', function(e) {
         pushSound.play();
         setTimeout(function() { navigator.vibrate(50); }, 300);
         touchDuration = Date.now();
       });
       
       // pull button
-      $(":button").on('touchend', function(e) {
+      $(":button").on('mouseup', function(e) {
         pullSound.play();
         touchDuration = (Date.now() - touchDuration) / 1000;
       });
