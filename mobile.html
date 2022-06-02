@@ -104,8 +104,8 @@
       function touchmove(e) { e.preventDefault(); }
       
       // load sound click
-      var pushSound = new Audio('sounds/push.wav');
-      var pullSound = new Audio('sounds/pull.wav');
+      var pushSound = new Audio('sounds/push1.wav');
+      var pullSound = new Audio('sounds/pull1.wav');
       var touchDuration = 0;
       
       // push button
@@ -122,13 +122,17 @@
       });
       
       $("#AD").on('touchend', function(e) {
-        if (touchDuration >= 0.5)
+        if (touchDuration >= 0.5) {
           this.style.backgroundColor = '#00FF00'; document.getElementById('DA').style.backgroundColor = '#343a40';
+          document.activeElement.blur();
+        }
       });
       
       $("#DA").on('touchend', function(e) {
-        if (touchDuration >= 0.5)
+        if (touchDuration >= 0.5) {
           this.style.backgroundColor = '#00FF00'; document.getElementById('AD').style.backgroundColor = '#343a40';
+          document.activeElement.blur();
+        }
       });
       
       // init display
