@@ -77,8 +77,20 @@
     <script src="js/Converter/converter.js"></script>
       
     <script>
+      // delete cookies
+      function deleteAllCookies() {
+        var cookies = document.cookie.split(";");
+
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = cookies[i];
+          var eqPos = cookie.indexOf("=");
+          var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        }
+      }
+      
       // use cookies to store current session
-      if (document.cookie) RAM = document.cookie.split(',');
+      if (document.cookie) RAM = document.cookie.split('ram=')[1].split(',');
 
       // display size
       DISPLAY_WIDTH = window.innerWidth - 8;
@@ -108,10 +120,11 @@
       var touchDuration = 0;
       
       // push button
-      $(":button").on('click', function(e) {
+      $(":button").on('touchstart', function(e) {
         pushSound.play();
         setTimeout(function() { navigator.vibrate(50); }, 300);
-        document.cookie = 'ram=' + RAM.slice(0, 1500).toString()
+        deleteAllCookies();
+        document.cookie = 'ram=' + RAM.slice(0, 1500).toString();
         touchDuration = Date.now();
       });
       
