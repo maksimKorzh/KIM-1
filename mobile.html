@@ -18,12 +18,12 @@
         box-shadow: none;
       }
       
-      .btn-dark[id="AD"]:hover {
+      .btn-dark[id="AD"]:focus {
         background-color: #00FF00 !important;
         box-shadow: none;
       }
       
-      .btn-dark[id="DA"]:hover {
+      .btn-dark[id="DA"]:focus {
         background-color: #00FF00 !important;
         box-shadow: none;
       }
@@ -108,10 +108,12 @@
       
       // vibrate on button clicks
       $(":button").on('touchstart', function(e) {
-        if (char_pending != 0x15) {
-          clickSound.play();
-          setTimeout(navigator.vibrate(100), 400);
-        }
+        setTimeout(function() {clickSound.play()}, 400);
+        setTimeout(function() {navigator.vibrate(100)}, 500);
+      });
+      
+      $(":button").on('touchend', function(e) {
+        clickSound.pause();
       });
       
       // init display
