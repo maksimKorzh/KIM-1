@@ -101,17 +101,17 @@
       // push button
       $(":button").on('touchstart', function(e) {
         pushSound.play();
-        setTimeout(function() { navigator.vibrate(50); }, 300);
-        touchDuration = Date.now();
+        setTimeout(function() { navigator.vibrate(50); }, 250);
+        //touchDuration = Date.now();
       });
       
       // pull button
       $(":button").on('touchend', function(e) {
         pullSound.play();
-        touchDuration = (Date.now() - touchDuration) / 1000;
+        //touchDuration = (Date.now() - touchDuration) / 1000;
       });
       
-      $("#AD").on('touchend', function(e) {
+      /*$("#AD").on('touchend', function(e) {
         if (touchDuration >= 0.5) {
           this.style.backgroundColor = '#00FF00'; document.getElementById('DA').style.backgroundColor = '#343a40';
           document.activeElement.blur();
@@ -123,7 +123,7 @@
           this.style.backgroundColor = '#00FF00'; document.getElementById('AD').style.backgroundColor = '#343a40';
           document.activeElement.blur();
         }
-      });
+      });*/
       
       // init display
       function setup() {
