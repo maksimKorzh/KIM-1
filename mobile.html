@@ -111,7 +111,7 @@
       $(":button").on('click', function(e) {
         pushSound.play();
         setTimeout(function() { navigator.vibrate(50); }, 300);
-        document.cookie = RAM.toString();
+        document.cookie = 'memory_dump=' + RAM.toString();
         touchDuration = Date.now();
       });
       
