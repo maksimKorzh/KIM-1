@@ -6,6 +6,13 @@
   <script src="js/7-segment-display/p5.min.js"></script>
   <script src="js/7-segment-display/p5.dom.min.js"></script>
   <meta name="viewport" content="user-scalable=0">
+  
+  <script src="js/ASM/jquery.min.js"></script>
+  <script src="js/fastclick/fastclick.js"></script>
+  <script>
+    // fast click
+    $(function() { FastClick.attach(document.body); });    
+  </script>
 
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -66,15 +73,10 @@
     <script src="js/7-segment-display/SegmentDisplay.js"></script>
     <script src="js/6502_CPU/6502.dev.js"></script>
     <script src="js/KIM-1/KIM-1.js"></script>
-    <script src="js/ASM/jquery.min.js"></script>
     <script src="js/ASM/assembler.js"></script>
     <script src="js/Converter/converter.js"></script>
-    <script src="js/fastclick/fastclick.js"></script>
-          
-    <script>
-      // fast click
-      $(function() { FastClick.attach(document.body); });
       
+    <script>
       // display size
       DISPLAY_WIDTH = window.innerWidth - 8;
       DISPLAY_HEIGHT = 235;
