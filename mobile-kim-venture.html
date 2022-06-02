@@ -100,7 +100,7 @@
       }  
       
       // use cookies to store current session
-      if (document.cookie) RAM = document.cookie.split('ram=')[1].split(',');
+      //if (document.cookie) RAM = document.cookie.split('ram=')[1].split(',');
 
       // display size
       DISPLAY_WIDTH = window.innerWidth - 8;
@@ -133,8 +133,8 @@
       $(":button").on('touchstart', function(e) {
         pushSound.play();
         setTimeout(function() { navigator.vibrate(50); }, 300);
-        deleteAllCookies();
-        setCookie();
+        //deleteAllCookies();
+        //setCookie();
         touchDuration = Date.now();
       });
       
