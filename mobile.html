@@ -77,6 +77,9 @@
     <script src="js/Converter/converter.js"></script>
       
     <script>
+      // use cookies to store current session
+      if (document.cookie) RAM = document.cookie.split(',');
+
       // display size
       DISPLAY_WIDTH = window.innerWidth - 8;
       DISPLAY_HEIGHT = 235;
@@ -105,9 +108,10 @@
       var touchDuration = 0;
       
       // push button
-      $(":button").on('touchstart', function(e) {
+      $(":button").on('click', function(e) {
         pushSound.play();
         setTimeout(function() { navigator.vibrate(50); }, 300);
+        document.cookie = RAM.toString();
         touchDuration = Date.now();
       });
       
@@ -171,10 +175,6 @@
       function keypad(key) { char_pending = key; }
       function resetCPU() { cpu.reset(); cpu.log(); }
       function stepCPU() { cpu.step(); cpu.log(); }
-      
-      // use cookies to store current session
-      if (document.cookies) RAM = document.cookies.split(',');
-      window.onbeforeunload = function() { document.cookies = RAM.toString(); }
     </script>
   </body>
 </html>
