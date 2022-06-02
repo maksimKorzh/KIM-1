@@ -171,7 +171,8 @@
       function stepCPU() { cpu.step(); cpu.log(); }
       
       // use cookies to store current session
-      document.cookies = "memory_dump=012345";
+      if (document.cookies) RAM = document.cookies.split(',');
+      window.onbeforeunload = function() { document.cookies = RAM.toString(); }
     </script>
   </body>
 </html>
