@@ -16,7 +16,12 @@
       .btn-dark:focus {
         background-color: #343a40 !important;
         box-shadow: none;
-      }      
+      }
+      
+      .btn-dark[id="DA"]:focus, btn-dark[id="AD"]:focus {
+        background-color: #00FF00 !important;
+        box-shadow: none;
+      }
     </style>
     
     <!-- Emulator -->
@@ -99,7 +104,7 @@
       // vibrate on button clicks
       $(":button").on('touchstart', function(e) {
         setTimeout(clickSound.play(), 0);
-        setTimeout(navigator.vibrate(150), 0);
+        setTimeout(navigator.vibrate(100), 100);
       });
       
       // init display
