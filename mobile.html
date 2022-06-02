@@ -18,7 +18,7 @@
         box-shadow: none;
       }
       
-      .btn-dark[id="AD"]:focus {
+      /*.btn-dark[id="AD"]:focus {
         background-color: #00FF00 !important;
         box-shadow: none;
       }
@@ -26,7 +26,7 @@
       .btn-dark[id="DA"]:focus {
         background-color: #00FF00 !important;
         box-shadow: none;
-      }
+      }*/
     </style>
     
     <!-- Emulator -->
@@ -110,15 +110,15 @@
       
       // push button
       $(":button").on('touchstart', function(e) {
-        touchDuration = Date.now();
         pushSound.play();
-        setTimeout(function() { navigator.vibrate(50); }, 300);
+        setTimeout(function() { navigator.vibrate(50); }, 400);
+        touchDuration = Date.now();
       });
       
       // pull button
       $(":button").on('touchend', function(e) {
-        touchDuration = (Date.now() - touchDuration) / 1000;
         pullSound.play();
+        touchDuration = (Date.now() - touchDuration) / 1000;
       });
       
       $("#AD").on('touchend', function(e) {
