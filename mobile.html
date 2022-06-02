@@ -11,12 +11,14 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
   <body>
+    <!-- disable active button highlight -->
     <style>
       .btn-dark:focus {
         background-color: #343a40 !important;
         box-shadow: none;
       }
     </style>
+    
     <!-- Emulator -->
     <div style="background-color: #222222;">
       <div id='display' class="m-1 pt-3 pb-0"></div>
@@ -84,6 +86,12 @@
       var btnHeight = ((height - 290) / 6);
       $('.btn').height(btnHeight);
       $('.btn').css({ 'font-size': btnHeight / 2 });
+      
+      // disable scrolling
+      document.addEventListener('touchstart', this.touchstart);
+      document.addEventListener('touchmove', this.touchmove);
+      function touchstart(e) { e.preventDefault(); }
+      function touchmove(e) { e.preventDefault(); }
       
       // init display
       function setup() {
