@@ -16,17 +16,7 @@
       .btn-dark:focus {
         background-color: #343a40 !important;
         box-shadow: none;
-      }
-      
-      /*.btn-dark[id="AD"]:focus {
-        background-color: #00FF00 !important;
-        box-shadow: none;
-      }
-      
-      .btn-dark[id="DA"]:focus {
-        background-color: #00FF00 !important;
-        box-shadow: none;
-      }*/
+      }      
     </style>
     
     <!-- Emulator -->
@@ -102,16 +92,16 @@
       document.addEventListener('touchmove', this.touchmove);
       function touchstart(e) { e.preventDefault(); }
       function touchmove(e) { e.preventDefault(); }
-      
+            
       // load sound click
-      var pushSound = new Audio('sounds/push1.wav');
-      var pullSound = new Audio('sounds/pull1.wav');
+      var pushSound = new Audio(); pushSound.src = 'data:audio/wav;base64,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';
+      var pullSound = new Audio(); pullSound.src = 'data:audio/wav;base64,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';
       var touchDuration = 0;
       
       // push button
       $(":button").on('touchstart', function(e) {
         pushSound.play();
-        setTimeout(function() { navigator.vibrate(50); }, 400);
+        setTimeout(function() { navigator.vibrate(50); }, 300);
         touchDuration = Date.now();
       });
       
