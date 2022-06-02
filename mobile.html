@@ -39,8 +39,8 @@
         <div class="col m-0 p-0" style="background-color: #343a40;"><input id="SST" class="m-0" style="width: 100%; height: 100%;" type="checkbox" onchange="single_step ^= 1"/></div>
       </div>
       <div class="row m-1" style="height: 100%;">
-        <div class="col m-0 p-0 mr-1"><button id="AD" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x10);" ontouchend="char_pending = 0x15; this.style.backgroundColor = '#00FF00'; document.getElementById('DA').style.backgroundColor = '#343a40';">AD</button></div>
-        <div class="col m-0 p-0 mr-1"><button id="DA" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x11);" ontouchend="char_pending = 0x15; this.style.backgroundColor = '#00FF00'; document.getElementById('AD').style.backgroundColor = '#343a40';">DA</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="AD" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x10);" ontouchend="char_pending = 0x15;">AD</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="DA" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x11);" ontouchend="char_pending = 0x15;">DA</button></div>
         <div class="col m-0 p-0 mr-1"><button id="PC" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x14)" ontouchend="char_pending = 0x15;">PC</button></div>
         <div class="col m-0 p-0"><button id="+" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x12)" ontouchend="char_pending = 0x15;">+</button></div>
       </div>
@@ -106,15 +106,29 @@
       // load sound click
       var pushSound = new Audio('sounds/push.wav');
       var pullSound = new Audio('sounds/pull.wav');
+      var touchDuration = 0;
       
-      // vibrate on button clicks
+      // push button
       $(":button").on('touchstart', function(e) {
+        touchDuration = Date.now();
         pushSound.play();
+        setTimeout(function() { navigator.vibrate(50); }, 300);
       });
       
+      // pull button
       $(":button").on('touchend', function(e) {
+        touchDuration = (Date.now() - touchDuration) / 1000;
         pullSound.play();
-        navigator.vibrate(100);
+      });
+      
+      $("#AD").on('touchend', function(e) {
+        if (touchDuration >= 0.5)
+          this.style.backgroundColor = '#00FF00'; document.getElementById('DA').style.backgroundColor = '#343a40';
+      });
+      
+      $("#DA").on('touchend', function(e) {
+        if (touchDuration >= 0.5)
+          this.style.backgroundColor = '#00FF00'; document.getElementById('AD').style.backgroundColor = '#343a40';
       });
       
       // init display
