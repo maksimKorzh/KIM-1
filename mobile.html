@@ -69,11 +69,11 @@
     <script src="js/ASM/jquery.min.js"></script>
     <script src="js/ASM/assembler.js"></script>
     <script src="js/Converter/converter.js"></script>
-    <!--script src="js/fastclick/fastclick.js"></script-->
+    <script src="js/fastclick/fastclick.js"></script>
           
     <script>
       // fast click
-      //$(function() { FastClick.attach(document.body); });
+      $(function() { FastClick.attach(document.body); });
       
       // display size
       DISPLAY_WIDTH = window.innerWidth - 8;
@@ -103,14 +103,14 @@
       var touchDuration = 0;
       
       // push button
-      $(":button").on('mousedown', function(e) {
+      $(":button").on('touchstart', function(e) {
         pushSound.play();
         setTimeout(function() { navigator.vibrate(50); }, 300);
         touchDuration = Date.now();
       });
       
       // pull button
-      $(":button").on('mouseup', function(e) {
+      $(":button").on('touchend', function(e) {
         pullSound.play();
         touchDuration = (Date.now() - touchDuration) / 1000;
       });
