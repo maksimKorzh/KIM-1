@@ -4,6 +4,9 @@
 # Experimental mobile version
 [![IMAGE ALT TEXT HERE](https://raw.githubusercontent.com/maksimKorzh/KIM-1/main/img/mobile.jpg)](https://maksimkorzh.github.io/KIM-1/mobile.html)
 
+# Mobile version with KIM Venture preloaded
+https://maksimkorzh.github.io/KIM-1/mobile-kim-venture.html
+
 # Credits
 Below is the list of the software I've bundled together<br>
 <br>
