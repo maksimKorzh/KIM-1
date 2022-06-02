@@ -33,40 +33,40 @@
     <div style="background-color: #222222;">
       <div id='display' class="m-1 pt-3 pb-0"></div>
       <div class="row m-1 mt-2" style="height: 100%;">
-        <div class="col m-0 p-0 mr-1"><button id="GO" style="font-size: 100%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x13);" ontouchend="lightdown(); char_pending = 0x15;">GO</button></div>
-        <div class="col m-0 p-0 mr-1"><button id="ST" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="stop();"      ontouchend="char_pending = 0x15;">ST</button></div>
-        <div class="col m-0 p-0 mr-1"><button id="RS" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="reset();"     ontouchend="char_pending = 0x15;">RS</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="GO" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x13);" ontouchend="lightdown(); char_pending = 0x15;">GO</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="ST" style="height: 100%;" class="col btn btn-dark" ontouchstart="stop();"      ontouchend="char_pending = 0x15;">ST</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="RS" style="height: 100%;" class="col btn btn-dark" ontouchstart="reset();"     ontouchend="char_pending = 0x15;">RS</button></div>
         <div class="col m-0 p-0" style="background-color: #343a40;"><input id="SST" class="m-0" style="width: 100%; height: 100%;" type="checkbox" onchange="single_step ^= 1"/></div>
       </div>
       <div class="row m-1" style="height: 100%;">
-        <div class="col m-0 p-0 mr-1"><button id="AD" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x10); this.style.backgroundColor = '#00FF00'; document.getElementById('DA').style.backgroundColor = '#343a40';" ontouchend="char_pending = 0x15;">AD</button></div>
-        <div class="col m-0 p-0 mr-1"><button id="DA" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x11); this.style.backgroundColor = '#00FF00'; document.getElementById('AD').style.backgroundColor = '#343a40';" ontouchend="char_pending = 0x15;">DA</button></div>
-        <div class="col m-0 p-0 mr-1"><button id="PC" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x14)" ontouchend="char_pending = 0x15;">PC</button></div>
-        <div class="col m-0 p-0"><button id="+" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x12)" ontouchend="char_pending = 0x15;">+</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="AD" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x10);" ontouchend="char_pending = 0x15; this.style.backgroundColor = '#00FF00'; document.getElementById('DA').style.backgroundColor = '#343a40';">AD</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="DA" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x11);" ontouchend="char_pending = 0x15; this.style.backgroundColor = '#00FF00'; document.getElementById('AD').style.backgroundColor = '#343a40';">DA</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="PC" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x14)" ontouchend="char_pending = 0x15;">PC</button></div>
+        <div class="col m-0 p-0"><button id="+" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x12)" ontouchend="char_pending = 0x15;">+</button></div>
       </div>
       <div class="row m-1" style="height: 100%;">
-        <div class="col m-0 p-0 mr-1"><button id="C" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x0c)" ontouchend="char_pending = 0x15;">C</button></div>
-        <div class="col m-0 p-0 mr-1"><button id="D" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x0d)" ontouchend="char_pending = 0x15;">D</button></div>
-        <div class="col m-0 p-0 mr-1"><button id="E" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x0e)" ontouchend="char_pending = 0x15;">E</button></div>
-        <div class="col m-0 p-0"><button id="F" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x0f)" ontouchend="char_pending = 0x15;">F</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="C" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x0c)" ontouchend="char_pending = 0x15;">C</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="D" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x0d)" ontouchend="char_pending = 0x15;">D</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="E" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x0e)" ontouchend="char_pending = 0x15;">E</button></div>
+        <div class="col m-0 p-0"><button id="F" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x0f)" ontouchend="char_pending = 0x15;">F</button></div>
       </div>
       <div class="row m-1" style="height: 100%;">
-        <div class="col m-0 p-0 mr-1"><button id="8" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x08)" ontouchend="char_pending = 0x15;">8</button></div>
-        <div class="col m-0 p-0 mr-1"><button id="9" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x09)" ontouchend="char_pending = 0x15;">9</button></div>
-        <div class="col m-0 p-0 mr-1"><button id="A" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x0a)" ontouchend="char_pending = 0x15;">A</button></div>
-        <div class="col m-0 p-0"><button id="B" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x0b)" ontouchend="char_pending = 0x15;">B</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="8" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x08)" ontouchend="char_pending = 0x15;">8</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="9" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x09)" ontouchend="char_pending = 0x15;">9</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="A" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x0a)" ontouchend="char_pending = 0x15;">A</button></div>
+        <div class="col m-0 p-0"><button id="B" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x0b)" ontouchend="char_pending = 0x15;">B</button></div>
       </div>
       <div class="row m-1" style="height: 100%;">
-        <div class="col m-0 p-0 mr-1"><button id="4" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x04)" ontouchend="char_pending = 0x15;">4</button></div>
-        <div class="col m-0 p-0 mr-1"><button id="5" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x05)" ontouchend="char_pending = 0x15;">5</button></div>
-        <div class="col m-0 p-0 mr-1"><button id="6" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x06)" ontouchend="char_pending = 0x15;">6</button></div>
-        <div class="col m-0 p-0"><button id="7" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x07)" ontouchend="char_pending = 0x15;">7</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="4" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x04)" ontouchend="char_pending = 0x15;">4</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="5" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x05)" ontouchend="char_pending = 0x15;">5</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="6" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x06)" ontouchend="char_pending = 0x15;">6</button></div>
+        <div class="col m-0 p-0"><button id="7" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x07)" ontouchend="char_pending = 0x15;">7</button></div>
       </div>
       <div class="row m-1" style="height: 100%;">
-        <div class="col m-0 p-0 mr-1"><button id="0" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x00)" ontouchend="char_pending = 0x15;">0</button></div>
-        <div class="col m-0 p-0 mr-1"><button id="1" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x01)" ontouchend="char_pending = 0x15;">1</button></div>
-        <div class="col m-0 p-0 mr-1"><button id="2" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x02)" ontouchend="char_pending = 0x15;">2</button></div>
-        <div class="col m-0 p-0"><button id="3" style="font-size: 400%; height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x03)" ontouchend="char_pending = 0x15;">3</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="0" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x00)" ontouchend="char_pending = 0x15;">0</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="1" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x01)" ontouchend="char_pending = 0x15;">1</button></div>
+        <div class="col m-0 p-0 mr-1"><button id="2" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x02)" ontouchend="char_pending = 0x15;">2</button></div>
+        <div class="col m-0 p-0"><button id="3" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x03)" ontouchend="char_pending = 0x15;">3</button></div>
       </div>
       <input type="checkbox" class="debug" name="debug" hidden/>
       <input id="toggleDisplayMode" type="checkbox" style="position: relative; top: 5px; margin: 0px; margin-left: 7px; padding: 0px; width: 19px; height: 19px;" hidden/>
