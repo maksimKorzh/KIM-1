@@ -90,7 +90,7 @@
       }
       
       // update cookie      
-      function setCookie(key, value) {  
+      function setCookie() {  
         var expires = new Date();  
         expires.setTime(expires.getTime() + 31536000000); //1 year  
         document.cookie = 'ram=' + RAM.slice(0, 1500).toString() + ';expires=' + expires.toUTCString();  
@@ -131,7 +131,7 @@
         pushSound.play();
         setTimeout(function() { navigator.vibrate(50); }, 300);
         deleteAllCookies();
-        setCookies();
+        setCookie();
         touchDuration = Date.now();
       });
       
