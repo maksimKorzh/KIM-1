@@ -94,11 +94,11 @@
       function touchmove(e) { e.preventDefault(); }
       
       // vibrate on button clicks
-      $(".button").on(isMobile ? 'touchstart' : 'mousedown', function(e) {
+      $(":button").on('touchstart', function(e) {
         navigator.vibrate(Infinity); // Infinity is a number
       });
 
-      $(".button").on(isMobile ? 'touchend' : 'mouseup', function(e) {
+      $(":button").on('touchend', function(e) {
         navigator.vibrate(0);
       });
       
