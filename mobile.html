@@ -18,7 +18,12 @@
         box-shadow: none;
       }
       
-      .btn-dark[id="DA"]:focus, btn-dark[id="AD"]:focus {
+      .btn-dark[id="AD"]:focus {
+        background-color: #00FF00 !important;
+        box-shadow: none;
+      }
+      
+      .btn-dark[id="DA"]:focus {
         background-color: #00FF00 !important;
         box-shadow: none;
       }
@@ -103,8 +108,8 @@
       
       // vibrate on button clicks
       $(":button").on('touchstart', function(e) {
-        setTimeout(clickSound.play(), 0);
-        setTimeout(navigator.vibrate(100), 100);
+        clickSound.play();
+        setTimeout(navigator.vibrate(100), 200);
       });
       
       // init display
