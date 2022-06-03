@@ -44,19 +44,19 @@
       <div class="row m-1" style="height: 100%;">
         <div class="col m-0 p-0 mr-1"><button id="C" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x0c)" ontouchend="char_pending = 0x15;">
           <div>C</div>
-          <div style="font-size: 16px;">Carry</div>
+          <div class="hint-text">Carry</div>
         </button></div>
         <div class="col m-0 p-0 mr-1"><button id="D" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x0d)" ontouchend="char_pending = 0x15;">
           <div>D</div>
-          <div style="font-size: 16px;">Drop</div>
+          <div class="hint-text">Drop</div>
         </button></div>
         <div class="col m-0 p-0 mr-1"><button id="E" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x0e)" ontouchend="char_pending = 0x15;">
           <div>E</div>
-          <div style="font-size: 16px;">Employ</div>
+          <div class="hint-text">Employ</div>
         </button></div>
         <div class="col m-0 p-0"><button id="F" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x0f)" ontouchend="char_pending = 0x15;">
           <div>F</div>
-          <div style="font-size: 16px;">Magic</div>
+          <div class="hint-text">Magic</div>
         </button></div>
       </div>
       <div class="row m-1" style="height: 100%;">
@@ -65,17 +65,17 @@
         <div class="col m-0 p-0 mr-1"><button id="A" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x0a)" ontouchend="char_pending = 0x15;">A</button></div>
         <div class="col m-0 p-0"><button id="B" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x0b)" ontouchend="char_pending = 0x15;">
           <div>B</div>
-          <div style="font-size: 10px;">Browse</div>
+          <div class="hint-text">Browse</div>
         </button></div>
       </div>
       <div class="row m-1" style="height: 100%;">
         <div class="col m-0 p-0 mr-1"><button id="4" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x04)" ontouchend="char_pending = 0x15;">
           <div>4</div>
-          <div style="font-size: 16px;">Up</div>
+          <div class="hint-text">Up</div>
         </button></div>
         <div class="col m-0 p-0 mr-1"><button id="5" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x05)" ontouchend="char_pending = 0x15;">
           <div>5</div>
-          <div style="font-size: 16px;">Down</div>
+          <div class="hint-text">Down</div>
         </button></div>
         <div class="col m-0 p-0 mr-1"><button id="6" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x06)" ontouchend="char_pending = 0x15;">6</button></div>
         <div class="col m-0 p-0"><button id="7" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x07)" ontouchend="char_pending = 0x15;">7</button></div>
@@ -83,19 +83,19 @@
       <div class="row m-1" style="height: 100%;">
         <div class="col m-0 p-0 mr-1"><button id="0" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x00)" ontouchend="char_pending = 0x15;">
           <div>0</div>
-          <div style="font-size: 16px;">North</div>
+          <div class="hint-text">North</div>
         </button></div>
         <div class="col m-0 p-0 mr-1"><button id="1" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x01)" ontouchend="char_pending = 0x15;">
           <div>1</div>
-          <div style="font-size: 16px;">East</div>
+          <div class="hint-text">East</div>
         </button></div>
         <div class="col m-0 p-0 mr-1"><button id="2" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x02)" ontouchend="char_pending = 0x15;">
           <div>2</div>
-          <div style="font-size: 16px;">South</div>
+          <div class="hint-text">South</div>
         </button></div>
         <div class="col m-0 p-0"><button id="3" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x03)" ontouchend="char_pending = 0x15;">
           <div>3</div>
-          <div style="font-size: 16px;">West</div>
+          <div class="hint-text">West</div>
         </button></div>
       </div>
       <input type="checkbox" class="debug" name="debug" hidden/>
@@ -153,6 +153,7 @@
       var btnHeight = ((height - 290) / 6);
       $('.btn').height(btnHeight);
       $('.btn').css({ 'font-size': btnHeight / 4 });
+      $('.hint-text').css({ 'font-size': btnHeight / 8 });
       
       // disable scrolling
       document.addEventListener('touchstart', this.touchstart);
