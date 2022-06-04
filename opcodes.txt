@@ -1,4 +1,29 @@
 ==============================================
+ Basic I/O
+==============================================
+  --------------------------------------------
+               Print 6 digits
+  --------------------------------------------
+  0200 A9 00    START  LDA #0      zero into A
+  0202 85 PB           STA POINTH  first 2
+  0204 85 FA           STA POINTL  next 2
+  0206 85 F9           STA INH     last 2
+  0208 20 1F 1F  LOOP  JSR SCANDS  light up!
+  020B 4C 08 02        JMP LOOP    do it again
+  
+  --------------------------------------------
+                Echo keypad
+  --------------------------------------------
+  0200 D8       START CLD         clr dc mode
+  0201 A9 00          LDA #0      zero into A
+  0203 85 FB    STORE STA POINTH
+  0205 85 FA          STA POINTL
+  0207 85 F9          STA INH
+  0209 20 1F 1F       JSR SCANDS  light up
+  020C 20 6A 1F       JSR GETKEY  test keys
+  020F 4C 03 02       JMP STORE
+
+==============================================
  Useful ROM Routines
 ==============================================
 
