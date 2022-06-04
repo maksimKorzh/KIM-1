@@ -13,7 +13,7 @@ class SegmentDisplay {
   constructor(type) {
 	// Default config
 	this._offsetVector = createVector(SEGMENT_OFFSET, 10);
-	this._offColor = color(255, 0, 0, 80);
+	this._offColor = color(255, 0, 0, 40);
 	this._onColor = color(255, 0, 0);
 	this._segmentLength = SEGMENT_HEIGHT;
 	this._segmentWidth = SEGMENT_WIDTH;
