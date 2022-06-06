@@ -1348,11 +1348,13 @@ document.onkeydown = function(e) {
 
     if  (e.keyCode == 221) {
       document.getElementById('SST').checked = true;
+      single_step = 1;
       return;
     }
     
     if  (e.keyCode == 219) {
       document.getElementById('SST').checked = false;
+      single_step = 0;
       return;
     }
 
