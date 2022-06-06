@@ -5,7 +5,7 @@
                Print 6 digits
   --------------------------------------------
   0200 A9 00    START  LDA #0      zero into A
-  0202 85 PB           STA POINTH  first 2
+  0202 85 FB           STA POINTH  first 2
   0204 85 FA           STA POINTL  next 2
   0206 85 F9           STA INH     last 2
   0208 20 1F 1F  LOOP  JSR SCANDS  light up!
@@ -54,11 +54,24 @@
 
   00EF PC low
   00F0 PC high
-  00F1 Status Register (flags)
+  00F1 Status Register (NV-BDIZC)
   00F2 Stack Pointer
   00F3 A
   00F4 Y
   00F5 X
+
+==============================================
+ Status register layout:
+==============================================
+
+  N - Negative flag
+  V - Overflow flag
+  - - Expansion flag
+  B - Break flag
+  D - Decimal mode flag
+  I - Interrupt flag
+  Z - Zero flag
+  C - Carry flag
 
 ==============================================
  NMI Initialization for Single Step and Stop:
