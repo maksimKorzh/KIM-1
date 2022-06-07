@@ -314,7 +314,8 @@ CodeMirror.defineMode("gas", function(_config, parserConfig) {
           stream.eatWhile(/[0-9a-fA-F]/);
           return "number";
         }
-        stream.eatWhile(/\d/);
+        stream.eatWhile(/[0-9a-fA-F]/);
+        //stream.eatWhile(/\d/);
         return "number";
       }
 
