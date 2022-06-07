@@ -142,7 +142,7 @@ CodeMirror.defineMode("gas", function(_config, parserConfig) {
   var registers = {};
 
   function x86(_parserConfig) {
-    lineCommentStartSymbol = "#";
+    lineCommentStartSymbol = ";";
 
     registers.ax  = "variable";
     registers.eax = "variable-2";
