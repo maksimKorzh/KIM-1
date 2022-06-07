@@ -34,6 +34,18 @@ function SimulatorWidget(node) {
       assembler.assembleCode();
     });
     $node.find('.runButton').click(function() {
+      // clear KIM memory before upload
+      for (let i = 0; i < RAM.length; i++) RAM[i] = 0x00;
+      
+      // reset CPU
+      cpu.reset();
+
+      // set KIM-1 'vector' locations
+      cpu.write(0x17FA, 0x00);
+      cpu.write(0x17FB, 0x1C);
+      cpu.write(0x17FE, 0x00);
+      cpu.write(0x17FF, 0x1C);
+      
       // load hex dump into KIM-1 memory
       for (let i = origin; i < origin + codeSize; i++) {
         if (origin < 1700) RAM[i] = memory.get(i);
