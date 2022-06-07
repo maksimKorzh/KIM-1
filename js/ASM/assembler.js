@@ -1933,7 +1933,7 @@ function SimulatorWidget(node) {
       defaultCodePC = BOOTSTRAP_ADDRESS;
       $node.find('.messages code').empty();
 
-      var code = $node.find('.code').val();
+      var code = editor.getValue();
       code += "\n\n";
       var lines = code.split("\n");
       codeAssembledOK = true;
