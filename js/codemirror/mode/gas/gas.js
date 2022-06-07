@@ -309,8 +309,8 @@ CodeMirror.defineMode("gas", function(_config, parserConfig) {
         return "braket";
       }
 
-      if (/[0-9a-fA-F]/.test(ch)) {
-      //if (/\d/.test(ch)) {
+      //if (/[0-9a-fA-F]/.test(ch)) {
+      if (ch == '$') {
         if (ch === "0" && stream.eat("x")) {
           stream.eatWhile(/[0-9a-fA-F]/);
           return "number";
