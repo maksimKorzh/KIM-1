@@ -6,7 +6,7 @@
   <script src="js/7-segment-display/p5.min.js"></script>
   <script src="js/7-segment-display/p5.dom.min.js"></script>
   <link rel="stylesheet" type="text/css" href="">
-  <meta charset="utf-8">
+  <meta charset="utf-8">  
 </head>
   <body>
     <!-- Emulator -->
@@ -775,7 +775,7 @@ Absolute      STY $4400     $8C  3   4
         </select>
         <input id="toggleDisplayMode" type="checkbox" style="position: relative; top: 5px; margin: 0px; margin-left: 7px; padding: 0px; width: 19px; height: 19px;"/>
       </div>
-      <textarea class="code" spellcheck="false" wrap="off"></textarea>
+      <textarea id="code" class="code" style="font-size: 20px;" spellcheck="false" wrap="off"></textarea>
       <div class="monitor" hidden><pre><code></code></pre></div>    
     <script src="js/7-segment-display/Segment.js"></script>
     <script src="js/7-segment-display/SegmentDisplay.js"></script>
@@ -785,7 +785,30 @@ Absolute      STY $4400     $8C  3   4
     <script src="js/ASM/assembler.js"></script>
     <script src="js/Converter/converter.js"></script>
     
+    <!-- Code mirror editor -->
+    <script src="js/codemirror/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="js/codemirror/lib/codemirror.css">
+    <script src="js/codemirror/mode/gas/gas.js"></script>
+    <script src="js/codemirror/addon/display/placeholder.js"></script>
+    
+    <style>
+      .CodeMirror {
+        font-family: monospace;
+        font-size: 14px;
+      }
+    </style>
+    
     <script>
+      // init code mirror
+      var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+        mode:  "gas",
+        lineNumbers: true,
+        matchBrackets: true,
+        indentUnit: 2
+      });
+      
+      editor.setSize('97%', 422);
+
       // display size
       DISPLAY_WIDTH = 235;
       DISPLAY_HEIGHT = 64;
