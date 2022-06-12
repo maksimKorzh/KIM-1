@@ -7,6 +7,9 @@
 # Mobile version with KIM Venture preloaded
 https://maksimkorzh.github.io/KIM-1/mobile-kim-venture.html
 
+# Mobile version with 6502 chess preloaded
+https://maksimkorzh.github.io/KIM-1/mobile_6502_chess.html
+
 # Credits
 Below is the list of the software I've bundled together<br>
 <br>
