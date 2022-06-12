@@ -7,7 +7,7 @@
 # Mobile version with KIM Venture preloaded
 https://maksimkorzh.github.io/KIM-1/mobile-kim-venture.html
 
-# Mobile version with 6502 chess preloaded
+# Mobile version with <a href="https://github.com/maksimKorzh/6502-chess">6502 chess</a> preloaded
 https://maksimkorzh.github.io/KIM-1/mobile_6502_chess.html
 
 # Credits
