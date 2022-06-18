@@ -1151,6 +1151,10 @@ var key_bits = [0xbf, 0xdf, 0xef, 0xf7, 0xfb, 0xfd, 0xfe];
 // Keypad input buffer
 var char_pending = 0x15;  // no key
 
+// Serial mode switch
+var serial_mode = 0;
+var serial_key = 0;
+
 // trigger NMI
 function stop() {
   // push PC to stack
@@ -1185,6 +1189,42 @@ cpu.read = function(addr) {
   
   // KIM-1 ROM (HEX monitor)
   if (addr >= 0x1800) {
+    // intercept OUTCH (send char to serial)
+    if (addr == 0x1EA0) {
+      if (cpu.A == 0x0D) document.getElementById('serial_monitor').innerHTML += '<br>';
+      document.getElementById('serial_monitor').innerHTML += String.fromCharCode(cpu.A);	   // print A to serial
+      cpu.PC = 0x1ED3;	               // skip subroutine
+      
+      // scroll serial monitor
+      var serial_monitor = document.getElementById('serial_monitor');
+      serial_monitor.scrollTop = serial_monitor.scrollHeight;
+      
+      return (0xEA);               // and return from subroutine with a fake NOP instruction
+    }
+    
+    // intercept GETCH (get char from serial).
+    if (addr == 0x1E65) {
+      cpu.A = serial_key;             // get A from keyboard
+      
+      if (cpu.A == 0) {
+        cpu.PC = 0x1E60;	            // cycle through GET1 loop for character start,
+        return (0xEA);                //  let the 6502 runs through this loop in a fake way
+      }
+
+      cpu.X = RAM[0x00FD];	         // x saved in TMPX by getch, need to get it in x;
+      cpu.PC = 0x1E87;               // skip subroutine
+      serial_key = 0;                  // force 'key up'
+      return (0xEA);                 // and return from subroutine with a fake NOP instruction
+    }
+
+    // intercept DETCPS
+    if (addr == 0x1C2A) {
+      RIOT[0x17F3-0x1700] = 1;     // just store some random bps delay on TTY in CNTH30
+      RIOT[0x17F2-0x1700] = 1;	   // just store some random bps delay on TTY in CNTL30
+      cpu.PC = 0x1C4F;             // skip subroutine
+      return (0xEA);               // and return from subroutine with a fake NOP instruction
+    }
+    
     return ROM[addr - 0x1800];
   }
   
@@ -1213,9 +1253,7 @@ cpu.read = function(addr) {
           return 0xff;
         }
       } else if (sv == 3) {
-        /*if (kim1_serial_mode) {
-          return 0;
-        }*/
+          if (serial_mode) return 0;
           return 0xff;
       } else {
           return 0x80;
@@ -1299,6 +1337,16 @@ function driveLED() {
   }
 }
 
+// switch off LED
+function turnOffLED() {
+  ssd1.displayDigit(0);
+  ssd2.displayDigit(0);
+  ssd3.displayDigit(0); 
+  ssd4.displayDigit(0);
+  ssd5.displayDigit(0);
+  ssd6.displayDigit(0);
+}
+
 // ============================================================================
 // ============================================================================
 //   INPUT DATA FROM KEYBOARD
@@ -1317,6 +1365,23 @@ document.onkeydown = function(e) {
   e = e || window.event;
   var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
   let pressed = String.fromCharCode(charCode);
+  
+  // handle keypress in serial mode
+  if (serial_mode) {
+    // do nothing on assembly code input
+    if (document.activeElement.tagName == 'TEXTAREA') return;
+    
+    // init serial key
+    serial_key = charCode;
+    
+    // use backspase to inspect previous address
+    if (serial_key == 0x08) serial_key = 0x0A;
+    
+    // use '.' to enter data
+    if (serial_key == 0xBE) serial_key = 0x2E;
+    
+    return false;
+  }
   
   // numpad shortcuts
   switch(e.keyCode) {

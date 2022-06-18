@@ -9,9 +9,17 @@
   <meta charset="utf-8">  
 </head>
   <body>
+    <style>
+      .hideP {
+        visibility: hidden;
+      }
+    </style>
     <!-- Emulator -->
     <div>
       <img src="img/KIM-1.jpg" style="position: absolute; left: 0px; top: 0px;"/>
+      <div id="serial_monitor" class="hideP" style="position: absolute; left: 62px; top: 150px; width: 650px; height: 345px; background-color: #000000; color: #00FF00; border: 2px solid #aaffaa; padding: 5px; overflow-y: scroll"></div>
+      <input  id="serial_switch" type="checkbox" onchange="serial_mode ^= 1; document.getElementById('serial_monitor').classList.toggle('hideP'); reset(); document.activeElement.blur(); turnOffLED();" style="position: absolute; width: 22px; height: 22px; left: 700px; top: 124px; background-color: Transparent; cursor: pointer;"/>
+      <div style="position: absolute; top: 130px; left: 585px; font-size: 16px; width: 120px; font-weight: bold; font-family: monospace; color: #ffffff;">Serial mode:</div>
       <input  id="SST" type="checkbox" onchange="single_step ^= 1" style="position: absolute; width: 22px; height: 22px; left: 650px; top: 665px; background-color: Transparent; cursor: pointer;"/>
       <button id="GO" onmousedown="keypad(0x13);" onmouseup="lightdown(); char_pending = 0x15;" ontouchstart="keypad(0x13);" ontouchend="lightdown(); char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 515px; top: 661px; background-color: Transparent; cursor: pointer;"></button>
       <button id="ST" onmousedown="stop();"       onmouseup="char_pending = 0x15;" ontouchstart="stop();"      ontouchend="char_pending = 0x15;" style="position: absolute; width: 32px; height: 32px; left: 560px; top: 661px; background-color: Transparent; cursor: pointer;"></button>
