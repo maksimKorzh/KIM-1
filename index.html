@@ -93,6 +93,11 @@
   SAVE     $1C00 Normal interrupt entry point.
   RST      $1C22 Reset return to monitor.
   START    $1C4F Return to monitor entry
+  --------------------------------------------
+  OUTSP    $1E9E Output space to TTY
+  OUTCH    $1EA0 Output A to TTY as char
+  GETCH    $1E5A Get char from TTY to A
+  PRTBYT   $1E3B Print HEX byte as 2 ASCII chars
 
 ==============================================
  I/O addresses
