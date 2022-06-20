@@ -1192,7 +1192,15 @@ cpu.read = function(addr) {
     // intercept OUTCH (send char to serial)
     if (addr == 0x1EA0) {
       if (cpu.A == 0x0D) document.getElementById('serial_monitor').innerHTML += '<br>';
-      document.getElementById('serial_monitor').innerHTML += String.fromCharCode(cpu.A);	   // print A to serial
+      else if (cpu.A == 0x08) {
+        let serial_monitor = document.getElementById('serial_monitor');
+        if (serial_monitor.innerHTML.slice(-1) == ';')
+          serial_monitor.innerHTML = serial_monitor.innerHTML.slice(0, -6);
+        else serial_monitor.innerHTML = serial_monitor.innerHTML.slice(0, -1);
+      }
+      else if (cpu.A == 0x20) document.getElementById('serial_monitor').innerHTML += '&nbsp;';
+      else document.getElementById('serial_monitor').innerHTML += String.fromCharCode(cpu.A);	   // print A to serial
+      
       cpu.PC = 0x1ED3;	               // skip subroutine
       
       // scroll serial monitor
@@ -1365,6 +1373,7 @@ document.onkeydown = function(e) {
   e = e || window.event;
   var charCode = (typeof e.which == "number") ? e.which : e.keyCode;
   let pressed = String.fromCharCode(charCode);
+  let getSerialKey = e.key.charCodeAt()
   
   // handle keypress in serial mode
   if (serial_mode) {
@@ -1372,13 +1381,22 @@ document.onkeydown = function(e) {
     if (document.activeElement.tagName == 'TEXTAREA') return;
     
     // init serial key
-    serial_key = charCode;
+    if (e.key == 'Shift' || e.key == 'Control' || e.key == 'Alt') return false
     
-    // use backspase to inspect previous address
-    if (serial_key == 0x08) serial_key = 0x0A;
+    // init serial key    
+    serial_key = getSerialKey;
+    
+    // backspace
+    if (e.key == 'Backspace') serial_key = 0x08;
+    
+    // new line
+    if (e.key == 'Enter') serial_key = 0x0D; 
+
+    // use '\' to inspect previous address
+    if (e.key == '\\') serial_key = 0x0A;
     
     // use '.' to enter data
-    if (serial_key == 0xBE) serial_key = 0x2E;
+    if (e.key == '.') serial_key = 0x2E;
     
     return false;
   }
