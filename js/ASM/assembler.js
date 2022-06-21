@@ -36,7 +36,8 @@ function SimulatorWidget(node) {
     $node.find('.runButton').click(function() {
       // clear KIM memory before upload
       for (let i = 0; i < RAM.length; i++) RAM[i] = 0x00;
-      
+      for (let i = 0; i < RAM_EXP.length; i++) RAM_EXP[i] = 0x00;
+
       // reset CPU
       cpu.reset();
 
@@ -48,7 +49,8 @@ function SimulatorWidget(node) {
       
       // load hex dump into KIM-1 memory
       for (let i = origin; i < origin + codeSize; i++) {
-        if (origin < 1700) RAM[i] = memory.get(i);
+        if (origin < 0x1700) RAM[i] = memory.get(i);
+        else if (origin >= 0x2000) RAM_EXP[i - 0x2000] = memory.get(i);
         else RIOT[i - 0x1700] = memory.get(i);
       }
       
@@ -314,7 +316,7 @@ function SimulatorWidget(node) {
           html += ": ";
         }
 
-        html += num2hex(RAM[start + x]);
+        html += num2hex(start < 0x2000 ? RAM[start + x] : RAM_EXP[(start - 0x2000) + x]);
         html += " ";
       }
       return html;
@@ -2645,7 +2647,7 @@ function SimulatorWidget(node) {
 
       while (currentAddress < endAddress) {
         inst = createInstruction(currentAddress);
-        byte = RAM[currentAddress];
+        byte = currentAddress < 0x2000 ? RAM[currentAddress] : RAM_EXP[currentAddress - 0x2000];
         inst.addByte(byte);
 
         modeAndCode = getModeAndCode(byte);
@@ -2654,7 +2656,7 @@ function SimulatorWidget(node) {
 
         for (var i = 1; i < length; i++) {
           currentAddress++;
-          byte = RAM[currentAddress];
+          byte = currentAddress < 0x2000 ? RAM[currentAddress] : RAM_EXP[currentAddress - 0x2000];
           inst.addByte(byte);
           inst.addArg(byte);
         }

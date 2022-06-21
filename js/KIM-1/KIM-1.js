@@ -1068,8 +1068,11 @@ const IRQ = new Uint8Array([
 // ======== RAM  0x0000-0x1700 ================================================
 var RAM = new Uint8Array(0x1700);
 
-// ======== RIOT chips memory 0x1700-0x17FF====================================
+// ======== RIOT chips memory 0x1700-0x17FF ===================================
 var RIOT = new Uint8Array(256);
+
+// ======== 60k expansion memory 0x2000 - 0xFFFA ==============================
+var RAM_EXP = new Uint8Array(0xDFFA);
 
 // ============================================================================
 // ============================================================================
@@ -1187,6 +1190,9 @@ cpu.read = function(addr) {
   // IRQ addresses
   if (addr >= 0xFFFA) return IRQ[addr - 0xFFFA];
   
+  // 60k RAM expansion (0x2000 - 0xFFFA)
+  if (addr >= 0x2000) return RAM_EXP[addr - 0x2000];
+  
   // KIM-1 ROM (HEX monitor)
   if (addr >= 0x1800) {
     // intercept OUTCH (send char to serial)
@@ -1289,6 +1295,12 @@ cpu.read = function(addr) {
 
 // write memory
 cpu.write = function(addr, value) {
+  // 60l expansion (0x2000 - 0xFFFA)
+  if (addr >= 0x2000) {
+    RAM_EXP[addr - 0x2000] = value;
+    return;
+  }
+  
   // KIM-1 6530 RIOT chips
   if (addr >= 0x1700) {
     if ((addr >= 0x1704) && (addr <= 0x1707)) {   // set timer
