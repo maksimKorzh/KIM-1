@@ -7,7 +7,8 @@ function openConverter() {
   html +=     '<title>KIM-1 format converter</title>';
   html +=     '<div>';
   html +=       '<button onclick="ptf2dcb();" style="width: 499px; margin: 5px; font-family: monospace;">Paper tape to DCB dump</button>';
-  html +=       '<button onclick="hex2ptf();" style="width: 499px; margin: 5px; font-family: monospace;">HEX dump to paper tape</button>';
+  html +=       '<button onclick="hex2ptf();" style="width: 245px; margin: 5px; font-family: monospace;">HEX dump to paper tape</button>';
+  html +=       '<button onclick="hex2dcb();" style="width: 245px; margin: 5px; font-family: monospace;">HEX 0x00 to DCB $00</button>';
   html +=     '</div>';
   html +=     '<div>';
   html +=       '<textarea id="sourceFormat" spellcheck="false" placeholder="Paste source format here..." rows="30" style="width: 499px; margin: 5px"></textarea>';
@@ -96,7 +97,34 @@ function hex2ptf() {
   dcb.value = targetFormat + linesNumber + '\r\n';
 }
 
-
+function hex2dcb() {
+// hook up text areas
+  let hex = document.getElementById('sourceFormat');
+  let dcb = document.getElementById('targetFormat');
+  
+  // temp variables
+  let origin = '';
+  let bytes = '';
+  let targetFormat = '';
+  
+  // get rid of trailing characters
+  let sourceFormat = hex.value.trim();
+  
+  // split paper tape into lines
+  let lines = sourceFormat.split('\n')
+  
+  // extract bytes
+  for (let i = 0; i < lines.length; i++) {
+    let currentLine = lines[i];
+    let appendLine = currentLine.split(',')
+    for (let i = 0; i < appendLine.length; i++) appendLine[i] = appendLine[i].replace('0x', '$')
+    appendLine = currentLine.slice(-1) == ',' ? appendLine.join(',').slice(0, -1) : appendLine.join(',');
+    targetFormat += 'DCB ' + appendLine + '\n';
+  }
+  
+  // output result format
+  dcb.value = targetFormat;
+}
 
 
 
