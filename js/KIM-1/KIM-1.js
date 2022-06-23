@@ -1185,6 +1185,8 @@ cpu.kil = function() {
   console.log('Emulator error');
 }
 
+var stdout = '';
+
 // read memory
 cpu.read = function(addr) {
   // IRQ addresses
@@ -1197,20 +1199,23 @@ cpu.read = function(addr) {
   if (addr >= 0x1800) {
     // intercept OUTCH (send char to serial)
     if (addr == 0x1EA0) {
-      if (cpu.A == 0x0D) document.getElementById('serial_monitor').innerHTML += '<br>';
+      if (cpu.A == 0x0D) stdout += '<br>';
       else if (cpu.A == 0x08) {
-        let serial_monitor = document.getElementById('serial_monitor');
-        if (serial_monitor.innerHTML.slice(-1) == ';')
-          serial_monitor.innerHTML = serial_monitor.innerHTML.slice(0, -6);
-        else serial_monitor.innerHTML = serial_monitor.innerHTML.slice(0, -1);
+        //let serial_monitor = document.getElementById('serial_monitor');
+        if (stdout.slice(-1) == ';') stdout = stdout.slice(0, -6);
+        else stdout = stdout.slice(0, -1);
       }
-      else if (cpu.A == 0x20) document.getElementById('serial_monitor').innerHTML += '&nbsp;';
-      else document.getElementById('serial_monitor').innerHTML += String.fromCharCode(cpu.A);	   // print A to serial
+      else if (cpu.A == 0x20) stdout += '&nbsp;';
+      else if (cpu.A == 0x14) stdout = stdout.slice(0, -6);
+      else if (cpu.A == 0x12) stdout = stdout.slice(0, -9);
+      else stdout += String.fromCharCode(cpu.A);	   // print A to serial
       
       cpu.PC = 0x1ED3;	               // skip subroutine
       
       // scroll serial monitor
-      var serial_monitor = document.getElementById('serial_monitor');
+      if (stdout.split('<br>').length > 17) stdout = stdout.split('<br>').slice(-17,).join('<br>');
+      else serial_monitor.innerHTML = stdout;
+      serial_monitor.innerHTML = stdout;
       serial_monitor.scrollTop = serial_monitor.scrollHeight;
       
       return (0xEA);               // and return from subroutine with a fake NOP instruction
@@ -1219,6 +1224,7 @@ cpu.read = function(addr) {
     // intercept GETCH (get char from serial).
     if (addr == 0x1E65) {
       cpu.A = serial_key;             // get A from keyboard
+      document.getElementById('serial_monitor').innerHTML += String.fromCharCode(cpu.A);
       
       if (cpu.A == 0) {
         cpu.PC = 0x1E60;	            // cycle through GET1 loop for character start,
@@ -1388,7 +1394,7 @@ document.onkeydown = function(e) {
   let getSerialKey = e.key.charCodeAt()
   
   // handle keypress in serial mode
-  if (serial_mode) {
+  if (serial_mode) {  
     // do nothing on assembly code input
     if (document.activeElement.tagName == 'TEXTAREA') return;
     
@@ -1467,6 +1473,11 @@ document.onkeyup = function(e) {
   if (charCode && document.activeElement.tagName != 'TEXTAREA') {
     let pressed = String.fromCharCode(charCode);
     
+    if (serial_mode) {
+      // scroll serial monitor
+      serial_monitor.scrollTop = serial_monitor.scrollHeight;
+    }
+  
     // numpad shortcuts
     switch(e.keyCode) {
       case 96: pressed = '0'; break;
@@ -1519,6 +1530,9 @@ cpu.write(0x17FB, 0x1C);
 cpu.write(0x17FE, 0x00);
 cpu.write(0x17FF, 0x1C);
 
+// serial monitor
+var serial_monitor = document.getElementById('serial_monitor');
+
 // main loop
 function cpuLoop() {
   //var start = Date.now();
@@ -1542,9 +1556,6 @@ function cpuLoop() {
   // loop forever
   setTimeout(cpuLoop, 0);
 } window.onload = function() { cpuLoop(); }
-
-
-
 
 
 
