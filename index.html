@@ -48,7 +48,55 @@
     
     <!-- Assembler -->
     <div class="widget" style="position: absolute; left: 750px; top: 9px;">
-      <div class="notes">
+      <div class="messages"><pre><code></code></pre></div>
+      <canvas class="screen" width="160" height="160" hidden></canvas>
+      <div class="debugger" hidden>
+        <input type="checkbox" class="debug" name="debug" />
+        <label for="debug">Debugger</label>
+        <div class="minidebugger"></div>
+        <div class="buttons">
+          <input type="button" value="Step" class="stepButton" />
+          <input type="button" value="Jump to ..." class="gotoButton" />
+        </div>
+      </div>
+      <textarea id="code" class="code" style="font-size: 20px;" spellcheck="false" wrap="off"></textarea>
+      <div class="monitorControls" style="position: relative; top: 8px;">
+        <label for="start" hidden>Start: $</label>
+        <input type="text" hidden value="0" class="start" name="start" />
+        <label for="length" hidden>Length: $</label>
+        <input type="text" hidden value="ff" class="length" name="length"/>
+        <input type="button" value="Assemble" class="assembleButton buttons" />
+        <input type="button" value="Upload" class="runButton buttons" />
+        <input type="button" hidden value="Reset" class="resetButton buttons" />
+        <input type="button" value="Hexdump" class="hexdumpButton buttons" />
+        <input type="button" value="Disassemble" class="disassembleButton buttons" />
+        <input type="button" value="Converter" onclick="openConverter();" class="buttons"/>
+        <select id="timeScale">
+          <option value="1">Timer 1</option>
+          <option value="2">Timer 2</option>
+          <option value="3">Timer 3</option>
+          <option value="4">Timer 4</option>
+          <option value="5" selected>Timer 5</option>
+          <option value="6">Timer 6</option>
+          <option value="7">Timer 7</option>
+          <option value="8">Timer 8</option>
+          <option value="9">Timer 9</option>
+          <option value="10">Timer 10</option>
+          <option value="11">Timer 11</option>
+          <option value="12">Timer 12</option>
+          <option value="13">Timer 13</option>
+          <option value="14">Timer 14</option>
+          <option value="15">Timer 15</option>
+          <option value="16">Timer 16</option>
+          <option value="17">Timer 17</option>
+          <option value="18">Timer 18</option>
+          <option value="19">Timer 19</option>
+          <option value="20">Timer 20</option>
+        </select>
+        <input id="toggleDisplayMode" type="checkbox" style="position: relative; top: 5px; margin: 0px; margin-left: 7px; padding: 0px; width: 19px; height: 19px;"/>
+      </div>
+      
+      <div class="notes" style="position: relative; top: 8px; height: 415px;">  
         <pre>
           <code>
 
@@ -861,58 +909,12 @@ Absolute      STY $4400     $8C  3   4
 
 ----------------------------------------------
 
-          </code>
-        </pre>
-      </div>
-      <div class="messages"><pre><code></code></pre></div>
-      <canvas class="screen" width="160" height="160" hidden></canvas>
-      <div class="debugger" hidden>
-        <input type="checkbox" class="debug" name="debug" />
-        <label for="debug">Debugger</label>
-        <div class="minidebugger"></div>
-        <div class="buttons">
-          <input type="button" value="Step" class="stepButton" />
-          <input type="button" value="Jump to ..." class="gotoButton" />
-        </div>
-      </div>
+        </code>
+      </pre>
+    </div>
 
-      <div class="monitorControls">
-        <label for="start" hidden>Start: $</label>
-        <input type="text" hidden value="0" class="start" name="start" />
-        <label for="length" hidden>Length: $</label>
-        <input type="text" hidden value="ff" class="length" name="length"/>
-        <input type="button" value="Assemble" class="assembleButton buttons" />
-        <input type="button" value="Upload" class="runButton buttons" />
-        <input type="button" hidden value="Reset" class="resetButton buttons" />
-        <input type="button" value="Hexdump" class="hexdumpButton buttons" />
-        <input type="button" value="Disassemble" class="disassembleButton buttons" />
-        <input type="button" value="Converter" onclick="openConverter();" class="buttons"/>
-        <select id="timeScale">
-          <option value="1">Timer 1</option>
-          <option value="2">Timer 2</option>
-          <option value="3">Timer 3</option>
-          <option value="4">Timer 4</option>
-          <option value="5" selected>Timer 5</option>
-          <option value="6">Timer 6</option>
-          <option value="7">Timer 7</option>
-          <option value="8">Timer 8</option>
-          <option value="9">Timer 9</option>
-          <option value="10">Timer 10</option>
-          <option value="11">Timer 11</option>
-          <option value="12">Timer 12</option>
-          <option value="13">Timer 13</option>
-          <option value="14">Timer 14</option>
-          <option value="15">Timer 15</option>
-          <option value="16">Timer 16</option>
-          <option value="17">Timer 17</option>
-          <option value="18">Timer 18</option>
-          <option value="19">Timer 19</option>
-          <option value="20">Timer 20</option>
-        </select>
-        <input id="toggleDisplayMode" type="checkbox" style="position: relative; top: 5px; margin: 0px; margin-left: 7px; padding: 0px; width: 19px; height: 19px;"/>
-      </div>
-      <textarea id="code" class="code" style="font-size: 20px;" spellcheck="false" wrap="off"></textarea>
-      <div class="monitor" hidden><pre><code></code></pre></div>    
+
+    <div class="monitor" hidden><pre><code></code></pre></div>    
     <script src="js/7-segment-display/Segment.js"></script>
     <script src="js/7-segment-display/SegmentDisplay.js"></script>
     <script src="js/6502_CPU/6502.dev.js"></script>
@@ -929,6 +931,8 @@ Absolute      STY $4400     $8C  3   4
     
     <style>
       .CodeMirror {
+        position: relative;
+        top: 8px;
         font-family: monospace;
         font-size: 14px;
         border: 1px solid grey;
@@ -944,7 +948,7 @@ Absolute      STY $4400     $8C  3   4
         indentUnit: 2
       });
       
-      editor.setSize('97%', 422);
+      editor.setSize('97%', 355); // 422
 
       // display size
       DISPLAY_WIDTH = 235;
