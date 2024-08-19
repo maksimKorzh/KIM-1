@@ -20,13 +20,18 @@
         box-shadow: none;
         -ms-touch-action: none;
         touch-action: none;
-      }      
+      }
+      .hideP {
+        //visibility: hidden;
+        display: none;
+      }
     </style>
+    <div id="serial_monitor" class="hideP" style="width: 100%; height: 148px; background-color: #000000; color: #00FF00; border: 2px solid #aaffaa; padding: 5px; overflow-y: scroll; word-wrap: break-word; font-family: monospace; font-size: 16px;"></div>
     <input id="toggleDisplayMode" type="checkbox" style="position: absolute; top: 0px; left: 0px; margin: 0px; margin-left: 7px; padding: 0px; width: 19px; height: 19px;" hidden/>
     <!-- Emulator -->
     <div style="background-color: #222222;">
-      <div id='display' class="m-0 pt-4 pb-0"></div>
-      <div class="row m-1 mt-2" style="height: 100%;">
+      <div id='display' class="m-0 pt-2 pb-0"></div>
+      <div class="row m-1 mt-0" style="height: 100%;">
         <div class="col m-0 p-0 mr-1"><button id="GO" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x13);" ontouchend="lightdown(); char_pending = 0x15;">GO</button></div>
         <div class="col m-0 p-0 mr-1"><button id="ST" style="height: 100%;" class="col btn btn-dark" ontouchstart="stop();"      ontouchend="char_pending = 0x15;">ST</button></div>
         <div class="col m-0 p-0 mr-1"><button id="RS" style="height: 100%;" class="col btn btn-dark" ontouchstart="reset();"     ontouchend="char_pending = 0x15;">RS</button></div>
@@ -63,8 +68,7 @@
         <div class="col m-0 p-0"><button id="3" style="height: 100%;" class="col btn btn-dark" ontouchstart="keypad(0x03)" ontouchend="char_pending = 0x15;">3</button></div>
       </div>
     </div>
-    <button id="fullscreen" style="width: 100%; height: 200px; background-color: #222222"></button>    
-    
+    <button id="fullscreen" style="width: 100%; height: 150px; background-color: #222222; color: #fff; font-size: 40px;">FULLSCREEN</button>
     <script src="js/7-segment-display/Segment.js"></script>
     <script src="js/7-segment-display/SegmentDisplay.js"></script>
     <script src="js/6502_CPU/6502.dev.js"></script>
@@ -96,6 +100,9 @@
             $('.btn').css({ 'font-size': btnHeight / 2 });
             $('#fullscreen').show();
             full = false;
+            
+            // hide serial monitor
+            document.getElementById('serial_monitor').classList.toggle('hideP');
           }, 100);
         }
       });
@@ -122,6 +129,9 @@
           $('.btn').height(btnHeight);
           $('.btn').css({ 'font-size': btnHeight / 2 });
           full = true;
+
+          // show serial monitor
+          document.getElementById('serial_monitor').classList.toggle('hideP');
         }, 100);
       });
 
