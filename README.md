@@ -1,14 +1,8 @@
 # KIM-1 emulator in JavaScript
 [![IMAGE ALT TEXT HERE](https://raw.githubusercontent.com/maksimKorzh/KIM-1/main/img/KIM-1.jpg)](https://maksimkorzh.github.io/KIM-1/)
 
-# Experimental mobile version
+# Mobile version
 [![IMAGE ALT TEXT HERE](https://raw.githubusercontent.com/maksimKorzh/KIM-1/main/img/mobile.jpg)](https://maksimkorzh.github.io/KIM-1/mobile.html)
-
-# Mobile version with KIM Venture preloaded
-https://maksimkorzh.github.io/KIM-1/mobile-kim-venture.html
-
-# Mobile version with <a href="https://github.com/maksimKorzh/6502-chess">6502 chess</a> preloaded
-https://maksimkorzh.github.io/KIM-1/mobile_6502_chess.html
 
 # Credits
 Below is the list of the software I've bundled together<br>
