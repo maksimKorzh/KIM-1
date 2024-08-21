@@ -69,9 +69,9 @@
       </div>
     </div>
     <button id="fullscreen" style="width: 100%; height: 150px; background-color: #222222; color: #fff; font-size: 40px;">FULLSCREEN</button>
-    <button id="load" style="width: 100%; height: 150px; background-color: #222222; color: #fff; font-size: 40px;">LOAD</button>
-    <button id="save" style="width: 100%; height: 150px; background-color: #222222; color: #fff; font-size: 40px;">SAVE</button>
-    <textarea id="program" style="width: 100%; height: 150px; font-family: monospace;"></textarea>
+    <button id="load" style="width: 100%; height: 150px; background-color: #222222; color: #fff; font-size: 40px;">IMPORT PAPER TAPE</button>
+    <button id="save" style="width: 100%; height: 150px; background-color: #222222; color: #fff; font-size: 40px;">EXPORT PAPER TAPE</button>
+    <textarea id="program" style="width: 100%; height: 500px; font-family: monospace; font-size: 26px;"></textarea>
     <script src="js/7-segment-display/Segment.js"></script>
     <script src="js/7-segment-display/SegmentDisplay.js"></script>
     <script src="js/6502_CPU/6502.dev.js"></script>
@@ -106,6 +106,7 @@
         summaryCheckSum = (parseInt(summary.slice(0,2), 16) + parseInt(summary.slice(2,4), 16)).toString(16).padStart(4, '0').toUpperCase();
         ptp += ';00' + summary + summaryCheckSum;
         $('#program').val(ptp);
+        alert('Find your paper tape in a text area below');
       });
 
       // load program
@@ -122,6 +123,7 @@
           }
         }
         for (let i = start; i < memory.length+start; i++) RAM[i] = parseInt(memory[i-start]);
+        alert('Your paper tape has been uploaded to memory at 0x' + start.toString(16).padStart(4, '0').toUpperCase());
       });
 
       // is fullscreen
