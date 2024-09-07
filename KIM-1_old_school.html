@@ -77,6 +77,10 @@
     <script src="js/KIM-1/KIM-1.js"></script>
     <script src="js/ASM/jquery.min.js"></script>
     <script>
+      // zoom page
+      let zoom = window.location.href.split('zoom=')[1]
+      if (zoom != undefined) document.body.style.zoom = zoom;
+
       // save program
       $('#save').on('click', function() {
         let from = parseInt(prompt("Enter start address:"));
