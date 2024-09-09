@@ -1,5 +1,5 @@
 function openEmulator() {
-  var w = window.open('', 'null', 'width=480,height=450,resizable=no,scrollbars=no,toolbar=no,location=no,menubar=no,status=no');
+  var w = window.open('', 'null', 'width=680,height=426,resizable=no,scrollbars=no,toolbar=no,location=no,menubar=no,status=no');
   var html = `
     <!DOCTYPE html>
     <html>
@@ -11,7 +11,7 @@ function openEmulator() {
         <link rel="stylesheet" type="text/css" href="">
         <meta charset="utf-8">  
       </head>
-      <body>
+      <body style="background-color: black;">
         <!--Emulator -->
         <div>
           <canvas class="screen" width="160" height="160" hidden></canvas>
@@ -39,9 +39,9 @@ function openEmulator() {
           <button id="1"  onmousedown="keypad(0x01);" onmouseup="char_pending = 0x15;" style="position: absolute; width: 60px; height: 60px; left: 60px; top: 364px; background-color: black; color: #bbb; font-size: 25px; cursor: pointer;">1</button>
           <button id="2"  onmousedown="keypad(0x02);" onmouseup="char_pending = 0x15;" style="position: absolute; width: 60px; height: 60px; left: 120px; top: 364px; background-color: black; color: #bbb; font-size: 25px; cursor: pointer;">2</button>
           <button id="3"  onmousedown="keypad(0x03);" onmouseup="char_pending = 0x15;" style="position: absolute; width: 60px; height: 60px; left: 180px; top: 364px; background-color: black; color: #bbb; font-size: 25px; cursor: pointer;">3</button>
-          <div id="serial_monitor" onclick="serial_mode ^= 1; reset(); document.activeElement.blur(); turnOffLED();" style="position: absolute; top: 0px; left: 240px; width: 228px; height: 413px; border: 1px solid grey; background-color: #000000; color: #00FF00; padding: 5px; overflow-y: hidden; word-wrap: break-word; font-family: monospace; font-size: 22px;"></div>
-          <input id="load" type="button" value="IMPORT PAPER TAPE" class="buttons" style="font-size: 18px; position: absolute; left: 0px; top: 424px; width: 240px; height: 25px;"/>
-          <input id="save" type="button" value="EXPORT PAPER TAPE" class="buttons" style="font-size: 18px; position: absolute; left: 240px; top: 424px; width: 240px; height: 25px;"/>
+          <div id="serial_monitor" onclick="serial_mode ^= 1; reset(); document.activeElement.blur(); turnOffLED();" style="position: absolute; top: 64px; left: 240px; width: 428px; height: 349px; border: 1px solid grey; background-color: #000000; color: #00FF00; padding: 5px; overflow-y: hidden; word-wrap: break-word; font-family: monospace; font-size: 19px;"></div>
+          <input id="load" type="button" value="IMPORT PAPER TAPE" class="buttons" style="font-size: 18px; position: absolute; left: 240px; top: 0px; width: 440px; height: 32px;"/>
+          <input id="save" type="button" value="EXPORT PAPER TAPE" class="buttons" style="font-size: 18px; position: absolute; left: 240px; top: 32px; width: 440px; height: 32px;"/>
           <input id="toggleDisplayMode" type="checkbox" style="display: none; position: relative; top: 5px; margin: 0px; margin-left: 7px; padding: 0px; width: 19px; height: 19px;"/>
         </div>
 
@@ -51,7 +51,7 @@ function openEmulator() {
         <script src="js/KIM-1/KIM-1.js"></script>
         <script src="js/ASM/jquery.min.js"></script>
         <script>
-          /* save program
+          // save program
           $('#save').on('click', function() {
             let from = parseInt(prompt("Enter start address:"));
             let to = parseInt(prompt("Enter end address:"));
@@ -70,19 +70,27 @@ function openEmulator() {
                 checksum += bytes[i];
               }
               checksum = checksum.toString(16).padStart(4, '0').toUpperCase();
-              record += checksum + '\r\n';
+              record += checksum + '\\r\\n';
               ptp += record;
             }
             summary = numRecord.toString(16).padStart(4, '0').toUpperCase();
             summaryCheckSum = (parseInt(summary.slice(0,2), 16) + parseInt(summary.slice(2,4), 16)).toString(16).padStart(4, '0').toUpperCase();
             ptp += ';00' + summary + summaryCheckSum;
-            $('#program').val(ptp);
+            const blob = new Blob([ptp], { type: 'text/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'KIM-1.PTP';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
           });
 
           // load program
           $('#load').on('click', function() {
             let memory = [];
-            let ptp = $('#program').val().split('\n');
+            let ptp = prompt('Paste your PTP here...').split('\\n');
             let start = parseInt(ptp[0].slice(3,7), 16);
             for (let i = 0; i < ptp.length-1; i++) {
               let bytes = ptp[i].slice(7, 55);
@@ -93,7 +101,7 @@ function openEmulator() {
             }
             for (let i = start; i < memory.length+start; i++) RAM[i] = parseInt(memory[i-start]);
             alert('Your paper tape has been uploaded to memory at 0x' + start.toString(16).padStart(4, '0').toUpperCase());
-          });*/
+          });
           
           // display size
           DISPLAY_WIDTH = 240;
