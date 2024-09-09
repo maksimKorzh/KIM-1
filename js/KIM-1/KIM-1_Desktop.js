@@ -1,5 +1,5 @@
 function openEmulator() {
-  var w = window.open('', 'null', 'width=680,height=426,resizable=no,scrollbars=no,toolbar=no,location=no,menubar=no,status=no');
+  var w = window.open(null, null, 'width=680,height=426,resizable=no,scrollbars=no,toolbar=no,location=no,menubar=no,status=no');
   var html = `
     <!DOCTYPE html>
     <html>
