@@ -1,11 +1,10 @@
 # KIM-1 emulator in JavaScript
-[![IMAGE ALT TEXT HERE](https://raw.githubusercontent.com/maksimKorzh/KIM-1/main/img/KIM-1.jpg)](https://maksimkorzh.github.io/KIM-1/)
+[![IMAGE ALT TEXT HERE](https://raw.githubusercontent.com/maksimKorzh/KIM-1/main/img/KIM-1.jpg)]
 
-# Mobile version
-[![IMAGE ALT TEXT HERE](https://raw.githubusercontent.com/maksimKorzh/KIM-1/main/img/mobile.jpg)](https://maksimkorzh.github.io/KIM-1/mobile.html)
-
-# Old school edition
-[![IMAGE ALT TEXT HERE](https://raw.githubusercontent.com/maksimKorzh/KIM-1/main/img/KIM-1.jpg)](https://maksimkorzh.github.io/KIM-1/KIM-1_old_school.html)
+<a href="https://maksimkorzh.github.io/KIM-1/index.html">KIM-1 Emulator "6502 Assembler" edition</a>
+<a href="https://maksimkorzh.github.io/KIM-1/mobile.html">KIM-1 Emulator "Mobile" edition</a>
+<a href="https://maksimkorzh.github.io/KIM-1/old_school.html">KIM-1 Emulator "Old School" edition</a>
+<a href="https://maksimkorzh.github.io/KIM-1/desktop.html">KIM-1 Emulator "Desktop" edition</a>
 
 # Credits
 Below is the list of the software I've bundled together<br>
