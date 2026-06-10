@@ -35,8 +35,8 @@ function SimulatorWidget(node) {
     });
     $node.find('.runButton').click(function() {
       // clear KIM memory before upload
-      for (let i = 0; i < RAM.length; i++) RAM[i] = 0x00;
-      for (let i = 0; i < RAM_EXP.length; i++) RAM_EXP[i] = 0x00;
+      //for (let i = 0; i < RAM.length; i++) RAM[i] = 0x00;
+      //for (let i = 0; i < RAM_EXP.length; i++) RAM_EXP[i] = 0x00;
 
       // reset CPU
       cpu.reset();
